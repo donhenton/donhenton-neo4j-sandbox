@@ -23,7 +23,8 @@ public class BaseNeo4jTest {
      */
     protected void prepareTestDatabase() {
          
-        graphDb = new TestGraphDatabaseFactory().newImpermanentDatabaseBuilder().newGraphDatabase();
+      graphDb = new 
+      TestGraphDatabaseFactory().newImpermanentDatabaseBuilder().newGraphDatabase();
     }
 
     
