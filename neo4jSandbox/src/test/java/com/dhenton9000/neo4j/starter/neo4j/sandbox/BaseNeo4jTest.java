@@ -17,39 +17,37 @@ import org.neo4j.test.TestGraphDatabaseFactory;
 public class BaseNeo4jTest {
 
     private GraphDatabaseService graphDb;
+    protected static GraphDatabaseService staticgraphDb;
 
-    
+    protected static void prepareEmbeddedDatabase(String dbLocation) {
+        staticgraphDb = new GraphDatabaseFactory().newEmbeddedDatabase(dbLocation);
+        registerShutdownHook();
+    }
+
     /**
      * this would be called in the @Before
      */
     protected void prepareTestDatabase() {
-         
-      graphDb = new 
-      TestGraphDatabaseFactory().newImpermanentDatabaseBuilder().newGraphDatabase();
+
+        graphDb = new TestGraphDatabaseFactory().newImpermanentDatabaseBuilder().newGraphDatabase();
     }
 
-    
-   
-   /**
-     * this would be called in the @Before, in this case we can set 
-     * properties
-     * 
-        Map<String, String> config = new HashMap<String, String>();
-        config.put( "neostore.nodestore.db.mapped_memory", "10M" );
-        config.put( "string_block_size", "60" );
-        config.put( "array_block_size", "300" ); 
-     * 
-     * 
-     */
-    protected void prepareTestDatabase(Map<String,String> config) {
-         
-        graphDb = new ImpermanentGraphDatabase( config );
-    }
-
-    
-    
     /**
-     *   this would be called in the @After method
+     * this would be called in the @Before, in this case we can set properties
+     *
+     * Map<String, String> config = new HashMap<String, String>(); config.put(
+     * "neostore.nodestore.db.mapped_memory", "10M" ); config.put(
+     * "string_block_size", "60" ); config.put( "array_block_size", "300" );
+     *
+     *
+     */
+    protected void prepareTestDatabase(Map<String, String> config) {
+
+        graphDb = new ImpermanentGraphDatabase(config);
+    }
+
+    /**
+     * this would be called in the @After method
      */
     protected void destroyTestDatabase() {
         getGraphDb().shutdown();
@@ -61,37 +59,27 @@ public class BaseNeo4jTest {
     protected GraphDatabaseService getGraphDb() {
         return graphDb;
     }
-    
+
     /**
      * This will connect to an already primed and loaded embedded folder area
-     * @param dbFileFolder 
+     *
+     * @param dbFileFolder
      */
-    protected void connectToEmbedded(String dbFileFolder)
-    {
+    protected void connectToEmbedded(String dbFileFolder) {
         graphDb = new GraphDatabaseFactory().newEmbeddedDatabase(dbFileFolder);
         registerShutdownHook();
     }
-    
-    
-    
-    private void registerShutdownHook()
-    {
+
+    private static void registerShutdownHook() {
         // Registers a shutdown hook for the Neo4j instance so that it
         // shuts down nicely when the VM exits (even if you "Ctrl-C" the
         // running example before it's completed)
-        Runtime.getRuntime()
-                .addShutdownHook( new Thread()
-                {
-                    @Override
-                    public void run()
-                    {
-                        graphDb.shutdown();
-                    }
-                } );
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+
+            @Override
+            public void run() {
+                staticgraphDb.shutdown();
+            }
+        });
     }
-    
-    
 }
-
-
-
