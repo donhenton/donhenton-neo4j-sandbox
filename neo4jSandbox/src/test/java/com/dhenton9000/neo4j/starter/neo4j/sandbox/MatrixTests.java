@@ -6,6 +6,13 @@ package com.dhenton9000.neo4j.starter.neo4j.sandbox;
 
 import com.dhenton9000.neo4j.starter.neo4j.sandbox.db.MatrixDBCreator.RelTypes;
 import static com.dhenton9000.neo4j.starter.neo4j.sandbox.db.MatrixDBCreator.MAXTRIX_DB_LOCATION;
+import com.tinkerpop.blueprints.pgm.Graph;
+import com.tinkerpop.blueprints.pgm.impls.neo4j.Neo4jGraph;
+import com.tinkerpop.blueprints.pgm.util.io.graphml.GraphMLWriter;
+import java.io.FileOutputStream;
+ 
+import java.io.IOException;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.neo4j.graphdb.Direction;
@@ -30,6 +37,24 @@ public class MatrixTests extends BaseNeo4jTest {
     public static void beforeClass()
     {
         prepareEmbeddedDatabase(MAXTRIX_DB_LOCATION);
+    }
+    
+    
+     @Test
+    public void testGraphMLOutput() throws IOException
+   {
+        
+       Graph graph = new Neo4jGraph(MAXTRIX_DB_LOCATION) ;
+        
+      
+        GraphMLWriter.outputGraph(graph, new FileOutputStream("mygraph.xml"));
+        
+        
+       //GraphMLWriter.outputGraph(graph, new FileOutputStream("mygraph.xml"));
+        
+       // GraphMLWriter writer = new GraphMLWriter(staticgraphDb.get);
+//writer.setNormalize(true);
+//writer.outputGraph(out);
     }
     
     

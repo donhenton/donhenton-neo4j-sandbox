@@ -139,13 +139,18 @@
             <scope>compile</scope>
         </dependency>
         
-         <dependency>
+        <dependency>
             <groupId>org.neo4j</groupId>
             <artifactId>neo4j-utils</artifactId>
             <version>1.2-1.2</version>
             <scope>compile</scope>
         </dependency>
         
+        <dependency>
+            <groupId>com.tinkerpop.gremlin</groupId>
+            <artifactId>gremlin-java</artifactId>
+            <version>2.1.0</version>
+        </dependency>
                
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -166,7 +171,13 @@
             <version>1.2.12</version>
         </dependency>
         
- 
+        <dependency>
+            <groupId>com.tinkerpop.blueprints</groupId>
+            <artifactId>blueprints-core</artifactId>
+            <version>1.2</version>
+            <scope>test</scope>
+            <type>jar</type>
+        </dependency>
 
         
         <!--  for testing  -->
@@ -184,12 +195,17 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-   <groupId>org.neo4j</groupId>
-   <artifactId>neo4j-kernel</artifactId>
-   <version>${neo4j.version}</version>
-   <type>test-jar</type>
-   <scope>test</scope>
-  </dependency>
+            <groupId>org.neo4j</groupId>
+            <artifactId>neo4j-kernel</artifactId>
+            <version>${neo4j.version}</version>
+            <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.tinkerpop.blueprints</groupId>
+            <artifactId>blueprints-neo4j-graph</artifactId>
+            <version>1.2</version>
+        </dependency>
     </dependencies>
 
     <repositories>
