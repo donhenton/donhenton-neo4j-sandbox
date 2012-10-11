@@ -15,7 +15,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-
+        <neo4j.version>1.8</neo4j.version>
        
         <!-- Tools properties -->
         <eclipsePluginVersion>2.5</eclipsePluginVersion>
@@ -135,10 +135,18 @@
         <dependency>
             <groupId>org.neo4j</groupId>
             <artifactId>neo4j</artifactId>
-            <version>1.7.2</version>
-            <type>pom</type>
+            <version>${neo4j.version}</version>
             <scope>compile</scope>
         </dependency>
+        
+         <dependency>
+            <groupId>org.neo4j</groupId>
+            <artifactId>neo4j-utils</artifactId>
+            <version>1.2-1.2</version>
+            <scope>compile</scope>
+        </dependency>
+        
+               
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
@@ -175,7 +183,7 @@
             <version>4.8.1</version>
             <scope>test</scope>
         </dependency>
-    
+        
     </dependencies>
 
     <repositories>
