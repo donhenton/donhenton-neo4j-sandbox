@@ -1,4 +1,4 @@
-package com.dhenton9000.neo4j.starter.neo4jsandbox;
+package com.dhenton9000.neo4j.starter.neo4j.sandbox;
 
 import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.GraphDatabaseService;

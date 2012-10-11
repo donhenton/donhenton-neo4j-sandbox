@@ -2,10 +2,11 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.dhenton9000.neo4j.starter.neo4jsandbox;
+package com.dhenton9000.neo4j.starter.neo4j.sandbox;
 
 import java.util.Map;
 import org.neo4j.graphdb.GraphDatabaseService;
+import org.neo4j.graphdb.factory.GraphDatabaseFactory;
 import org.neo4j.test.ImpermanentGraphDatabase;
 import org.neo4j.test.TestGraphDatabaseFactory;
 
@@ -60,6 +61,36 @@ public class BaseNeo4jTest {
     protected GraphDatabaseService getGraphDb() {
         return graphDb;
     }
+    
+    /**
+     * This will connect to an already primed and loaded embedded folder area
+     * @param dbFileFolder 
+     */
+    protected void connectToEmbedded(String dbFileFolder)
+    {
+        graphDb = new GraphDatabaseFactory().newEmbeddedDatabase(dbFileFolder);
+        registerShutdownHook();
+    }
+    
+    
+    
+    private void registerShutdownHook()
+    {
+        // Registers a shutdown hook for the Neo4j instance so that it
+        // shuts down nicely when the VM exits (even if you "Ctrl-C" the
+        // running example before it's completed)
+        Runtime.getRuntime()
+                .addShutdownHook( new Thread()
+                {
+                    @Override
+                    public void run()
+                    {
+                        graphDb.shutdown();
+                    }
+                } );
+    }
+    
+    
 }
 
 
