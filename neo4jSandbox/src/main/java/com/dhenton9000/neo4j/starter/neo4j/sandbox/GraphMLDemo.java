@@ -23,7 +23,7 @@ public class GraphMLDemo {
     public static void main(String[] args) {
         GraphMLDemo gd = new GraphMLDemo();
         try {
-            gd.doYedDemo();
+            gd.doDrWhoDemo();
         } catch (IOException ex) {
         }
     }
@@ -38,6 +38,14 @@ public class GraphMLDemo {
         Graph graph = new Neo4jGraph(MAXTRIX_DB_LOCATION);
         YedFileWriter yedWriter = new YedFileWriter(graph,"Text");
         yedWriter.outputGraph("yedwriter.graphml");
+        
+
+    }
+     
+      private void doDrWhoDemo() throws IOException {
+        Graph graph = new Neo4jGraph("target/drwho");
+        YedFileWriter yedWriter = new YedFileWriter(graph,"character");
+        yedWriter.outputGraph("drwho.graphml");
         
 
     }
