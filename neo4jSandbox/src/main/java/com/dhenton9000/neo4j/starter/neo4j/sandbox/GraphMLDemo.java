@@ -19,7 +19,8 @@ import org.slf4j.LoggerFactory;
 public class GraphMLDemo {
 
     public static final String MAXTRIX_DB_LOCATION = "target/matrixDB";
- private final Logger logger = LoggerFactory.getLogger(GraphMLDemo.class);
+    private final Logger logger = LoggerFactory.getLogger(GraphMLDemo.class);
+
     public static void main(String[] args) {
         GraphMLDemo gd = new GraphMLDemo();
         try {
@@ -33,21 +34,20 @@ public class GraphMLDemo {
         GraphMLWriter.outputGraph(graph, new FileOutputStream("mygraph-unlabeled.graphml"));
 
     }
-    
-     private void doYedDemo() throws IOException {
+
+    private void doYedMatrixDemo() throws IOException {
         Graph graph = new Neo4jGraph(MAXTRIX_DB_LOCATION);
-        YedFileWriter yedWriter = new YedFileWriter(graph,"Text");
-        yedWriter.outputGraph("yedwriter.graphml");
-        
+        MatrixYedFileWriter yedWriter = new MatrixYedFileWriter(graph);
+        yedWriter.outputGraph("yedmatrix.graphml");
+
 
     }
-     
-      private void doDrWhoDemo() throws IOException {
+
+    private void doDrWhoDemo() throws IOException {
         Graph graph = new Neo4jGraph("target/drwho");
-        YedFileWriter yedWriter = new YedFileWriter(graph,"character");
+        DrWhoYedFileWriter yedWriter = new DrWhoYedFileWriter(graph);
         yedWriter.outputGraph("drwho.graphml");
-        
+
 
     }
-    
 }

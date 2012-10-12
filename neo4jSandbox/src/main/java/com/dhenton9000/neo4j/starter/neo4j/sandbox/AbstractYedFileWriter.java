@@ -9,21 +9,21 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * YedFileWriter writes a Graph for the yEd Graph Editor to a GraphML
+ * AbstractYedFileWriter writes a Graph for the yEd Graph Editor to a GraphML
  * OutputStream. This is adapted from code authored by
  * Benny Neugebauer (http://www.bennyn.de)
  *
  * @author Dhenton
  */
-public class YedFileWriter {
+public abstract class AbstractYedFileWriter {
 
     private Graph graph = null;
     private String xml = null;
-    private final Logger logger = LoggerFactory.getLogger(YedFileWriter.class);
-    private String vertexLabelProperty = null;
+    private final Logger logger = LoggerFactory.getLogger(AbstractYedFileWriter.class);
+   
   
-    public YedFileWriter(Graph graph, String vertexLabelProperty) {
-        this.vertexLabelProperty = vertexLabelProperty;
+    public AbstractYedFileWriter(Graph graph) {
+       
          this.graph = graph;
     }
 
@@ -80,6 +80,12 @@ public class YedFileWriter {
         return edgeXml;
     }
 
+    
+    public abstract String computeVertexLabel(Vertex vertex);
+    
+    
+    
+    
     private void createGraphXml() {
         xml = getGraphMLHeader();
 
@@ -90,7 +96,7 @@ public class YedFileWriter {
         Iterator<Vertex> verticesIterator = vertices.iterator();
         while (verticesIterator.hasNext()) {
             Vertex vertex = verticesIterator.next();
-            String labelValue = (String) vertex.getProperty(vertexLabelProperty);
+            String labelValue = computeVertexLabel(vertex);
             String id = vertex.getId().toString();
             String node = getNode(id, labelValue);
             xml += node;
@@ -111,7 +117,7 @@ public class YedFileWriter {
 
     public void outputGraph(final OutputStream out) throws IOException {
         createGraphXml();
-        logger.debug("xml\n" + xml);
+        //logger.debug("xml\n" + xml);
         BufferedWriter br = new BufferedWriter(new OutputStreamWriter(out));
         br.write(xml);
         br.flush();
