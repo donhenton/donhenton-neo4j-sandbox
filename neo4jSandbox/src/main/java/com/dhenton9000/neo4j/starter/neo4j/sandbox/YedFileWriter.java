@@ -10,9 +10,10 @@ import org.slf4j.LoggerFactory;
 
 /**
  * YedFileWriter writes a Graph for the yEd Graph Editor to a GraphML
- * OutputStream.
+ * OutputStream. This is adapted from code authored by
+ * Benny Neugebauer (http://www.bennyn.de)
  *
- * @author Benny Neugebauer (http://www.bennyn.de)
+ * @author Dhenton
  */
 public class YedFileWriter {
 
@@ -20,12 +21,10 @@ public class YedFileWriter {
     private String xml = null;
     private final Logger logger = LoggerFactory.getLogger(YedFileWriter.class);
     private String vertexLabelProperty = null;
-    private String edgeLabelProperty = null;
-
-    public YedFileWriter(Graph graph, String vertexLabelProperty, String edgeLabelProperty) {
+  
+    public YedFileWriter(Graph graph, String vertexLabelProperty) {
         this.vertexLabelProperty = vertexLabelProperty;
-        this.edgeLabelProperty = edgeLabelProperty;
-        this.graph = graph;
+         this.graph = graph;
     }
 
     private String getGraphMLHeader() {

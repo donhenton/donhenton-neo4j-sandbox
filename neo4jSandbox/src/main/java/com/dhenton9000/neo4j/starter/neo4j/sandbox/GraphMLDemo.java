@@ -36,7 +36,7 @@ public class GraphMLDemo {
     
      private void doYedDemo() throws IOException {
         Graph graph = new Neo4jGraph(MAXTRIX_DB_LOCATION);
-        YedFileWriter yedWriter = new YedFileWriter(graph,"Text","fred");
+        YedFileWriter yedWriter = new YedFileWriter(graph,"Text");
         yedWriter.outputGraph("yedwriter.graphml");
         
 
