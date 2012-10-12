@@ -23,7 +23,7 @@ public class GraphMLDemo {
     public static void main(String[] args) {
         GraphMLDemo gd = new GraphMLDemo();
         try {
-            gd.doDemo();
+            gd.doYedDemo();
         } catch (IOException ex) {
         }
     }
@@ -33,4 +33,13 @@ public class GraphMLDemo {
         GraphMLWriter.outputGraph(graph, new FileOutputStream("mygraph-unlabeled.graphml"));
 
     }
+    
+     private void doYedDemo() throws IOException {
+        Graph graph = new Neo4jGraph(MAXTRIX_DB_LOCATION);
+        YedFileWriter yedWriter = new YedFileWriter(graph,"Text","fred");
+        yedWriter.outputGraph("yedwriter.graphml");
+        
+
+    }
+    
 }
