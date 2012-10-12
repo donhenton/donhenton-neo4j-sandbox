@@ -175,7 +175,7 @@
             <groupId>com.tinkerpop.blueprints</groupId>
             <artifactId>blueprints-core</artifactId>
             <version>1.2</version>
-            <scope>test</scope>
+            <scope>compile</scope>
             <type>jar</type>
         </dependency>
 

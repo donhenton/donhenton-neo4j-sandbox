@@ -5,11 +5,7 @@
 package com.dhenton9000.neo4j.starter.neo4j.sandbox;
 
 import com.dhenton9000.neo4j.starter.neo4j.sandbox.db.MatrixDBCreator.RelTypes;
-import static com.dhenton9000.neo4j.starter.neo4j.sandbox.db.MatrixDBCreator.MAXTRIX_DB_LOCATION;
-import com.tinkerpop.blueprints.pgm.Graph;
-import com.tinkerpop.blueprints.pgm.impls.neo4j.Neo4jGraph;
-import com.tinkerpop.blueprints.pgm.util.io.graphml.GraphMLWriter;
-import java.io.FileOutputStream;
+import static com.dhenton9000.neo4j.starter.neo4j.sandbox.GraphMLDemo.MAXTRIX_DB_LOCATION;
  
 import java.io.IOException;
 
@@ -43,12 +39,8 @@ public class MatrixTests extends BaseNeo4jTest {
      @Test
     public void testGraphMLOutput() throws IOException
    {
-        
-       Graph graph = new Neo4jGraph(MAXTRIX_DB_LOCATION) ;
-        
-      
-        GraphMLWriter.outputGraph(graph, new FileOutputStream("mygraph.xml"));
-        
+        // this code must NOT have the database running
+    
         
        //GraphMLWriter.outputGraph(graph, new FileOutputStream("mygraph.xml"));
         
@@ -63,8 +55,8 @@ public class MatrixTests extends BaseNeo4jTest {
     {
        Node t = getNeoNode();
        assertNotNull(t);
-       assertNotNull(t.getProperty("name",null));
-       assertEquals(t.getProperty("name",null),"Thomas Anderson");
+       assertNotNull(t.getProperty("Text",null));
+       assertEquals(t.getProperty("Text",null),"Thomas Anderson");
     }
     
     
