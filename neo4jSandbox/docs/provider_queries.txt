@@ -1,0 +1,4 @@
+
+#all the providers for a given division
+start n=node:division_display_index(division_display_property="New York") 
+match n-[*]->b where b.TYPE = "PROVIDERS" return n,b;

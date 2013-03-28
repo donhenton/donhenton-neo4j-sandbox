@@ -61,8 +61,8 @@ public class HospitalDbMaker {
     public enum RelationshipTypes implements RelationshipType {
 
         IS_DIVIDED_INTO,
-        IS_PART_OF,
-        PROVIDES_SERVICE_TO,
+        //IS_PART_OF,
+        //PROVIDES_SERVICE_TO,
         DERIVES_SERVICE_FROM
     }
 
@@ -146,8 +146,8 @@ public class HospitalDbMaker {
             indexDivisionsDisplay.add(districtNode, DIVISION_DISPLAY_PROPERTY, label);
             indexTypes.add(districtNode, NODE_TYPE.TYPE.toString(), NODE_TYPE.DISTRICTS.toString());
             rootNode.createRelationshipTo(districtNode, RelationshipTypes.IS_DIVIDED_INTO);
-            districtNode.createRelationshipTo(rootNode, RelationshipTypes.IS_PART_OF);
-            districtNode.setProperty( NODE_TYPE.TYPE.toString(), NODE_TYPE.DIVISIONS.toString());
+            //  districtNode.createRelationshipTo(rootNode, RelationshipTypes.IS_PART_OF);
+            districtNode.setProperty(NODE_TYPE.TYPE.toString(), NODE_TYPE.DIVISIONS.toString());
             addProviders(districtNode);
         }
 
@@ -163,7 +163,7 @@ public class HospitalDbMaker {
             providerNode.setProperty(PROVIDER_DISPLAY_PROPERTY, label);
             indexTypes.add(providerNode, NODE_TYPE.TYPE.toString(), NODE_TYPE.PROVIDERS.toString());
             rootNode.createRelationshipTo(providerNode, RelationshipTypes.DERIVES_SERVICE_FROM);
-            providerNode.createRelationshipTo(rootNode, RelationshipTypes.PROVIDES_SERVICE_TO);
+            //  providerNode.createRelationshipTo(rootNode, RelationshipTypes.PROVIDES_SERVICE_TO);
             indexProvidersDisplay.add(providerNode, PROVIDER_DISPLAY_PROPERTY, label);
             providerNode.setProperty(PROVIDER_DB_KEY, providerNumber);
             providerNode.setProperty(NODE_TYPE.TYPE.toString(), NODE_TYPE.PROVIDERS.toString());
@@ -186,8 +186,8 @@ public class HospitalDbMaker {
             indexDivisionsDisplay.add(divNode, DIVISION_DISPLAY_PROPERTY, label);
             indexTypes.add(divNode, NODE_TYPE.TYPE.toString(), NODE_TYPE.DIVISIONS.toString());
             rootNode.createRelationshipTo(divNode, RelationshipTypes.IS_DIVIDED_INTO);
-            divNode.createRelationshipTo(rootNode, RelationshipTypes.IS_PART_OF);
-            divNode.setProperty( NODE_TYPE.TYPE.toString(), NODE_TYPE.DIVISIONS.toString());
+            //    divNode.createRelationshipTo(rootNode, RelationshipTypes.IS_PART_OF);
+            divNode.setProperty(NODE_TYPE.TYPE.toString(), NODE_TYPE.DIVISIONS.toString());
         }
 
         // stateRootNode = graphDb.createNode();
@@ -223,8 +223,8 @@ public class HospitalDbMaker {
             String divLabel = divisionName[i];
             divNode.setProperty(DIVISION_DISPLAY_PROPERTY, divLabel);
             regionNode.createRelationshipTo(divNode, RelationshipTypes.IS_DIVIDED_INTO);
-            divNode.createRelationshipTo(regionNode, RelationshipTypes.IS_PART_OF);
-            divNode.setProperty( NODE_TYPE.TYPE.toString(), NODE_TYPE.DIVISIONS.toString());
+            //  divNode.createRelationshipTo(regionNode, RelationshipTypes.IS_PART_OF);
+            divNode.setProperty(NODE_TYPE.TYPE.toString(), NODE_TYPE.DIVISIONS.toString());
             indexTypes.add(divNode, NODE_TYPE.TYPE.toString(), NODE_TYPE.DIVISIONS.toString());
             for (String label : items) {
                 Node stateNode = graphDb.createNode();
@@ -234,10 +234,10 @@ public class HospitalDbMaker {
                 indexTypes.add(stateNode, NODE_TYPE.TYPE.toString(), NODE_TYPE.DIVISIONS.toString());
                 indexTypes.add(stateNode, NODE_TYPE.TYPE.toString(), NODE_TYPE.STATE_DIVISIONS.toString());
                 divNode.createRelationshipTo(stateNode, RelationshipTypes.IS_DIVIDED_INTO);
-                stateNode.createRelationshipTo(divNode, RelationshipTypes.IS_PART_OF);
-                stateNode.setProperty( NODE_TYPE.TYPE.toString(), NODE_TYPE.DIVISIONS.toString());
+                //      stateNode.createRelationshipTo(divNode, RelationshipTypes.IS_PART_OF);
+                stateNode.setProperty(NODE_TYPE.TYPE.toString(), NODE_TYPE.DIVISIONS.toString());
                 stateArray.add(stateNode);
-                
+
 
             }
         }
