@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.dhenton9000.neo4j.starter.neo4j.sandbox.inventory;
+package com.dhenton9000.neo4j.starter.neo4j.sandbox.hospital;
 
 import com.dhenton9000.neo4j.utils.DatabaseHelper;
 import java.util.ArrayList;
@@ -61,8 +61,6 @@ public class HospitalDbMaker {
     public enum RelationshipTypes implements RelationshipType {
 
         IS_DIVIDED_INTO,
-        //IS_PART_OF,
-        //PROVIDES_SERVICE_TO,
         DERIVES_SERVICE_FROM
     }
 
@@ -117,7 +115,7 @@ public class HospitalDbMaker {
      while (iter.hasNext()) {
      Node t = iter.next();
      logger.debug("xx " + t.getProperty(DIVISION_DISPLAY_PROPERTY), "NA");
-     addDistricts(t);
+     addDistrictsAndProviders(t);
      }
 
 
@@ -127,13 +125,13 @@ public class HospitalDbMaker {
         IndexHits<Node> stateList = indexTypes.get(NODE_TYPE.TYPE.toString(), NODE_TYPE.STATE_DIVISIONS);
 
         for (Node state : stateList) {
-            addDistricts(state);
+            addDistrictsAndProviders(state);
         }
 
 
     }
 
-    private void addDistricts(Node rootNode) {
+    private void addDistrictsAndProviders(Node rootNode) {
 
         Double d = Math.random() * 5d;
         int numDist = d.intValue() + 2;
