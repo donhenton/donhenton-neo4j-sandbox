@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-workspace name="Projects" soapui-version="4.5.1" xmlns:con="http://eviware.com/soapui/config">
+  <con:settings/>
+  <con:project name="Neo4J">/home/dhenton/NetBeansProjects/donhenton-neo4j-sandbox/neo4jSandbox/docs/Neo4J-soapui-project.xml</con:project>
+</con:soapui-workspace>

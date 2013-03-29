@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.dhenton9000.neo4j.starter.neo4j.sandbox.inventory;
+package com.dhenton9000.neo4j.starter.neo4j.sandbox.hospital;
 
 import com.dhenton9000.neo4j.starter.neo4j.sandbox.BaseNeo4jTest;
 import static com.dhenton9000.neo4j.starter.neo4j.sandbox.inventory.HospitalDbMaker.*;
@@ -97,6 +97,8 @@ public class HospitalTests extends BaseNeo4jTest {
 
     
     /*
+     * treewalking: http://stackoverflow.com/questions/9080929/modeling-an-ordered-tree-with-neo4j
+     * 
      start n=node:division_display_index(division_display_property="New York") match n-[?]->a-[?]->b where b.TYPE = "PROVIDERS" return b;
      start n=node:division_display_index(division_display_property= 'New York') return n;
 start n=node:division_display_index(division_display_property= 'Northeast') match n -[:IS_DIVIDED_INTO*]-> o return o;
