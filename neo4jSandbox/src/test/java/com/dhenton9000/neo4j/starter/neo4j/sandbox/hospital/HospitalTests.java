@@ -170,7 +170,7 @@ public class HospitalTests extends BaseNeo4jTest {
             jsonString.append("\n" + getIndent(level) + "]\n");
 
         }
-        jsonString.append("},");
+        jsonString.append(getIndent(level-1) +"},");
 
 
 
