@@ -8,14 +8,17 @@ import com.dhenton9000.neo4j.starter.neo4j.sandbox.BaseNeo4jTest;
 import static com.dhenton9000.neo4j.starter.neo4j.sandbox.hospital.HospitalDbMaker.*;
 import com.tinkerpop.blueprints.pgm.impls.neo4j.Neo4jGraph;
 import com.tinkerpop.blueprints.pgm.impls.tg.TinkerGraph;
+import java.util.ArrayList;
 import java.util.Iterator;
 import org.junit.AfterClass;
 import static org.junit.Assert.*;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Path;
+import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.index.Index;
 import org.neo4j.graphdb.index.IndexHits;
 import org.neo4j.graphdb.traversal.Evaluation;
@@ -35,10 +38,12 @@ public class HospitalTests extends BaseNeo4jTest {
 
     private final Logger logger = LoggerFactory.getLogger(HospitalTests.class);
     private static final int STATE_COUNT = 47;
+    //  private static String tString = "";
 
     @BeforeClass
     public static void beforeClass() {
         prepareEmbeddedDatabase(DB_LOCATION);
+        // tString = "";
     }
 
     @AfterClass
@@ -91,7 +96,7 @@ public class HospitalTests extends BaseNeo4jTest {
         Iterator<Node> iter = nodeList.iterator();
         while (iter.hasNext()) {
             Node t = iter.next();
-            logger.debug("type " + t.getProperty(NODE_TYPE.TYPE.toString(), "NULL"));
+            //    logger.debug("type " + t.getProperty(NODE_TYPE.TYPE.toString(), "NULL"));
             // logger.debug("display " + t.getProperty(PROVIDER_DISPLAY_PROPERTY, "NULL"));
 
 
@@ -99,22 +104,98 @@ public class HospitalTests extends BaseNeo4jTest {
 
     }
 
+    @Ignore
+    public void testBuildTree() {
+        String nodeName = "Midwest";
+        // Node dItem = getDivisionNode(nodeName);
+        Node dItem = staticgraphDb.getNodeById(1);
+
+        assertNotNull(dItem);
+        Iterable<Relationship> rels =
+                dItem.getRelationships(Direction.OUTGOING,
+                RelationshipTypes.IS_DIVIDED_INTO);
+        ArrayList<String> items = new ArrayList<String>();
+        buildTree(dItem, items, "");
+        logger.debug("\n" + items.toString() + "\n");
+
+    }
+
+    private void buildTree(Node item, ArrayList<String> list, String marker) {
+        String nextItem = (String) item.getProperty(DIVISION_DISPLAY_PROPERTY);
+        // logger.debug("item in " + nextItem);
+
+        Iterable<Relationship> rels =
+                item.getRelationships(Direction.OUTGOING,
+                RelationshipTypes.IS_DIVIDED_INTO);
+        list.add(marker + nextItem);
+        if (rels.iterator().hasNext()) {
+            // logger.debug(tString);
+            // logger.debug(" -> " + nextItem);
+            for (Relationship r : rels) {
+                buildTree(r.getEndNode(), list, marker + "-");
+            }
+
+        }
+
+    }
+
+    @Test
+    public void testBuildJSON() {
+
+        StringBuffer j = new StringBuffer();
+        Node dItem = getDivisionNode(PROGRAM_NAME);
+        buildJSON(dItem, j, 0);
+        // assertEquals("fredted", j.toString());
+        logger.debug("\n\n" + j.toString() + "\n");
+
+    }
+
+    private void buildJSON(Node item, StringBuffer jsonString, int level) {
+        String nextItem = (String) item.getProperty(DIVISION_DISPLAY_PROPERTY);
+        Iterable<Relationship> rels =
+                item.getRelationships(Direction.OUTGOING,
+                RelationshipTypes.IS_DIVIDED_INTO);
+
+        //level++;
+        jsonString.append("\n" + getIndent(level) + "{ label: '" + nextItem + "',");
+        if (rels.iterator().hasNext()) {
+            // logger.debug(tString);
+            // logger.debug(" -> " + nextItem);
+            level ++;
+            jsonString.append( "\n"+getIndent(level)+"children: [");
+
+            for (Relationship r : rels) {
+                buildJSON(r.getEndNode(), jsonString,  level);
+            }
+            jsonString.append("\n" + getIndent(level) + "]\n");
+
+        }
+        jsonString.append("},");
+
+
+
+    }
+
+    private String getIndent(int n) {
+        return new String(new char[n]).replace("\0", "   ");
+    }
+
     @Test
     public void testDisplayTraverse() {
-        String nodeName = "New York";
+        String nodeName = "West";
         Node dItem = getDivisionNode(nodeName);
+
         TraversalDescription td = Traversal.description()
-                .depthFirst() 
-                 .relationships(RelationshipTypes.IS_DIVIDED_INTO, Direction.OUTGOING) 
+                .breadthFirst()
+                .relationships(RelationshipTypes.IS_DIVIDED_INTO, Direction.OUTGOING)
                 .evaluator(Evaluators.excludeStartPosition());
 
         Traverser t = td.traverse(dItem);
-        
-        for (Path p: t)
-        {
-            logger.debug("p "+p.toString());
+
+        for (Path p : t) {
+            //  logger.debug("p "+p.endNode().getProperty(DIVISION_DISPLAY_PROPERTY));
         }
-        
+
     }
 
     /*

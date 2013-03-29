@@ -26,6 +26,7 @@ public class HospitalDbMaker {
 
     private static final Logger logger = LoggerFactory.getLogger(HospitalDbMaker.class);
     public static final String STATE_ROOT_LABEL = "STATES";
+    public static final String PROGRAM_NAME = "Blue Cross";
     private EmbeddedGraphDatabase graphDb;
     public static final String DB_LOCATION = "/home/dhenton/neo4j/mydata/hospital.db";
     //public static final String DIVISION_INDEX_NAME = "division_index";
@@ -175,7 +176,15 @@ public class HospitalDbMaker {
 
 
         String[] labels = {"Northeast", "Midwest", "South", "West"};
-        Node rootNode = graphDb.getReferenceNode();
+        Node refNode = graphDb.getReferenceNode();
+        
+        Node rootNode = graphDb.createNode();
+        refNode.createRelationshipTo(rootNode,  RelationshipTypes.IS_DIVIDED_INTO);
+        indexTypes.add(rootNode, NODE_TYPE.TYPE.toString(), NODE_TYPE.DIVISIONS.toString());
+        rootNode.setProperty(NODE_TYPE.TYPE.toString(), NODE_TYPE.DIVISIONS.toString());
+        indexDivisionsDisplay.add(rootNode, DIVISION_DISPLAY_PROPERTY, PROGRAM_NAME);
+        rootNode.setProperty(DIVISION_DISPLAY_PROPERTY, PROGRAM_NAME);
+        
         for (String label : labels) {
             //logger.debug("adding " + label);
 
