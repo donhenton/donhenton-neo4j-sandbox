@@ -2,23 +2,16 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.dhenton9000.neo4j.starter.neo4j.sandbox.hospital;
+package com.dhenton9000.neo4j.starter.neo4j.hospital;
 
+import static com.dhenton9000.neo4j.hospital.HospitalDbMaker.*;
+import com.dhenton9000.neo4j.hospital.json.Division;
+import com.dhenton9000.neo4j.hospital.json.JSONHospitalServiceImpl;
 import com.dhenton9000.neo4j.starter.neo4j.sandbox.BaseNeo4jTest;
-import static com.dhenton9000.neo4j.starter.neo4j.sandbox.hospital.HospitalDbMaker.*;
-import com.dhenton9000.neo4j.starter.neo4j.sandbox.hospital.HospitalDbMaker.NODE_TYPE;
-import com.dhenton9000.neo4j.starter.neo4j.sandbox.hospital.json.Division;
-import com.dhenton9000.neo4j.starter.neo4j.sandbox.hospital.json.JSONHospitalServiceImpl;
-import java.io.IOException;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.AfterClass;
 import static org.junit.Assert.*;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.neo4j.graphdb.Direction;
-import org.neo4j.graphdb.Node;
-import org.neo4j.graphdb.Relationship;
-import org.neo4j.graphdb.index.Index;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

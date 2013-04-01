@@ -2,11 +2,8 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.dhenton9000.neo4j.starter.neo4j.sandbox.hospital.json;
+package com.dhenton9000.neo4j.hospital.json;
 
-import com.dhenton9000.neo4j.starter.neo4j.sandbox.hospital.HospitalDbMaker;
-import static com.dhenton9000.neo4j.starter.neo4j.sandbox.hospital.HospitalDbMaker.*;
-import com.dhenton9000.neo4j.starter.neo4j.sandbox.hospital.HospitalDbMaker.NODE_TYPE;
 import java.io.IOException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.neo4j.graphdb.Direction;
@@ -26,6 +23,29 @@ public class JSONHospitalServiceImpl implements JSONHospitalService {
     private ObjectMapper mapper = new ObjectMapper();
 
     @Override
+    public Node createAndAttachDivisionNode(Node parent, String nodeLabel) {
+        Node currentNode = getNeo4jDb().createNode();
+        parent.createRelationshipTo(currentNode, RelationshipTypes.IS_DIVIDED_INTO);
+        getTypeIndex().add(currentNode, NODE_TYPE.TYPE.toString(), NODE_TYPE.DIVISIONS.toString());
+        currentNode.setProperty(NODE_TYPE.TYPE.toString(), NODE_TYPE.DIVISIONS.toString());
+        getDivisionIndex().add(currentNode, DIVISION_DISPLAY_PROPERTY, nodeLabel);
+        currentNode.setProperty(DIVISION_DISPLAY_PROPERTY, nodeLabel);
+        return currentNode;
+    }
+    
+    @Override
+    public Node createAndAttachProviderNode(Node parent, String nodeLabel) {
+        Node currentNode = getNeo4jDb().createNode();
+        parent.createRelationshipTo(currentNode, RelationshipTypes.DERIVES_SERVICE_FROM);
+        getTypeIndex().add(currentNode, NODE_TYPE.TYPE.toString(), NODE_TYPE.PROVIDERS.toString());
+        currentNode.setProperty(NODE_TYPE.TYPE.toString(), NODE_TYPE.PROVIDERS.toString());
+        getDivisionIndex().add(currentNode, PROVIDER_DISPLAY_PROPERTY, nodeLabel);
+        currentNode.setProperty(PROVIDER_DISPLAY_PROPERTY, nodeLabel);
+        return currentNode;
+    }
+    
+
+    @Override
     public String structureToString(Division root) throws IOException {
         String temp = mapper.defaultPrettyPrintingWriter().writeValueAsString(root);
         return temp;
@@ -36,7 +56,7 @@ public class JSONHospitalServiceImpl implements JSONHospitalService {
         return mapper.readValue(jsonString, Division.class);
     }
 
-     @Override
+    @Override
     public Division buildDivison(String startDivisionLabel) {
         Division root = new Division();
         Node dItem = getDivisionNode(startDivisionLabel);
@@ -46,8 +66,7 @@ public class JSONHospitalServiceImpl implements JSONHospitalService {
         buildJSON(dItem, root);
         return root;
     }
-    
-    
+
     private void buildJSON(Node item, Division parent) {
         String nextItem = getDisplayMessage(item);
         Iterable<Relationship> rels =
@@ -93,9 +112,9 @@ public class JSONHospitalServiceImpl implements JSONHospitalService {
         return lVar;
     }
 
-    private HospitalDbMaker.NODE_TYPE getNodeType(Node node) {
-        String t = (String) node.getProperty(HospitalDbMaker.NODE_TYPE.TYPE.toString());
-        HospitalDbMaker.NODE_TYPE res = HospitalDbMaker.NODE_TYPE.valueOf(t);
+    private NODE_TYPE getNodeType(Node node) {
+        String t = (String) node.getProperty(NODE_TYPE.TYPE.toString());
+        NODE_TYPE res = NODE_TYPE.valueOf(t);
         if (res == null) {
             throw new RuntimeException("got node type error " + t);
         }
@@ -104,10 +123,9 @@ public class JSONHospitalServiceImpl implements JSONHospitalService {
 
     @Override
     public Node getDivisionNode(String nodeName) {
-        Index<Node> indexDivisionsDisplay =
-                getNeo4jDb().index().forNodes(DIVISION_DISPLAY_INDEX);
+
         Node dItem =
-                indexDivisionsDisplay.get(DIVISION_DISPLAY_PROPERTY, nodeName).getSingle();
+                getDivisionIndex().get(DIVISION_DISPLAY_PROPERTY, nodeName).getSingle();
         return dItem;
     }
 
@@ -125,5 +143,19 @@ public class JSONHospitalServiceImpl implements JSONHospitalService {
         this.neo4jDb = neo4jDb;
     }
 
-   
+    private Index<Node> getDivisionIndex() {
+        return getIndex(DIVISION_DISPLAY_INDEX);
+    }
+
+    private Index<Node> getProviderIndex() {
+        return getIndex(PROVIDER_DISPLAY_INDEX);
+    }
+    
+     private Index<Node> getTypeIndex() {
+        return getIndex(TYPE_INDEX);
+    }
+
+    private Index<Node> getIndex(String indexNodeLabel) {
+        return getNeo4jDb().index().forNodes(indexNodeLabel);
+    }
 }

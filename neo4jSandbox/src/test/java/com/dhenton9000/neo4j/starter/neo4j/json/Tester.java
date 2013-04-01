@@ -1,7 +1,7 @@
 package com.dhenton9000.neo4j.starter.neo4j.json;
 
 import com.dhenton9000.neo4j.starter.neo4j.sandbox.MatrixTests;
-import com.dhenton9000.neo4j.starter.neo4j.sandbox.hospital.json.Division;
+import com.dhenton9000.neo4j.hospital.json.Division;
 import com.dhenton9000.utils.xml.XMLUtils;
 import static org.junit.Assert.*;
 

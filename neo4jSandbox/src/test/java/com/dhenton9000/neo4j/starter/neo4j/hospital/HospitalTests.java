@@ -2,12 +2,14 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.dhenton9000.neo4j.starter.neo4j.sandbox.hospital;
+package com.dhenton9000.neo4j.starter.neo4j.hospital;
 
+import static com.dhenton9000.neo4j.hospital.json.JSONHospitalService.*;
+import com.dhenton9000.neo4j.hospital.json.JSONHospitalService.NODE_TYPE;
+import com.dhenton9000.neo4j.hospital.json.JSONHospitalService.RelationshipTypes;
 import com.dhenton9000.neo4j.starter.neo4j.sandbox.BaseNeo4jTest;
-import static com.dhenton9000.neo4j.starter.neo4j.sandbox.hospital.HospitalDbMaker.*;
-import com.tinkerpop.blueprints.pgm.impls.neo4j.Neo4jGraph;
-import com.tinkerpop.blueprints.pgm.impls.tg.TinkerGraph;
+import static com.dhenton9000.neo4j.hospital.HospitalDbMaker.DB_LOCATION;
+import static com.dhenton9000.neo4j.hospital.HospitalDbMaker.PROGRAM_NAME;
 import java.util.ArrayList;
 import java.util.Iterator;
 import org.junit.AfterClass;
@@ -51,15 +53,16 @@ public class HospitalTests extends BaseNeo4jTest {
         staticgraphDb.shutdown();
     }
 
-    @Test
-    public void testStateCount() {
-        Index<Node> indexTypes = staticgraphDb.index().forNodes(TYPE_INDEX);
-        IndexHits<Node> states =
-                indexTypes.get(NODE_TYPE.TYPE.toString(),
-                NODE_TYPE.STATE_DIVISIONS.toString());
-        assertEquals(STATE_COUNT, states.size());
-
-    }
+//TODO use a cypher query with fixed depth where depth is at the state level
+//    @Test
+//    public void testStateCount() {
+//        Index<Node> indexTypes = staticgraphDb.index().forNodes(TYPE_INDEX);
+//        IndexHits<Node> states =
+//                indexTypes.get(NODE_TYPE.TYPE.toString(),
+//                NODE_TYPE.STATE_DIVISIONS.toString());
+//        assertEquals(STATE_COUNT, states.size());
+//
+//    }
 
     @Test
     public void testGetDivision() {
