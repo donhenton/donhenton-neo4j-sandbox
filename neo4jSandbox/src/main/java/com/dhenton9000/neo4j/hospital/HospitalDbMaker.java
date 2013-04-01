@@ -110,13 +110,7 @@ public class HospitalDbMaker {
             String label = "P" + String.format("%03d", providerNumber);
             Node providerNode = jService.createAndAttachProviderNode(rootNode, label);
             providerNode.setProperty(PROVIDER_DISPLAY_PROPERTY, label);
-           // indexTypes.add(providerNode, NODE_TYPE.TYPE.toString(), NODE_TYPE.PROVIDERS.toString());
-           // rootNode.createRelationshipTo(providerNode, RelationshipTypes.DERIVES_SERVICE_FROM);
-            //  providerNode.createRelationshipTo(rootNode, RelationshipTypes.PROVIDES_SERVICE_TO);
-          //  indexProvidersDisplay.add(providerNode, PROVIDER_DISPLAY_PROPERTY, label);
-          //  providerNode.setProperty(PROVIDER_DB_KEY, providerNumber);
-          //  providerNode.setProperty(NODE_TYPE.TYPE.toString(), NODE_TYPE.PROVIDERS.toString());
-          //  indexProvidersDisplay.add(providerNode, PROVIDER_DB_KEY, providerNumber);
+  
 
 
         }
@@ -178,9 +172,6 @@ public class HospitalDbMaker {
         DatabaseHelper dbHelper = new DatabaseHelper();
         graphDb = dbHelper.createDatabase(DB_LOCATION, true);
         Transaction tx = graphDb.beginTx();
-       // indexDivisionsDisplay = graphDb.index().forNodes(DIVISION_DISPLAY_INDEX);
-      //  indexProvidersDisplay = graphDb.index().forNodes(PROVIDER_DISPLAY_INDEX);
-      //  indexTypes = graphDb.index().forNodes(TYPE_INDEX);
         jService.setNeo4jDb(graphDb);
 
 
