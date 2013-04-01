@@ -13,7 +13,15 @@ import org.neo4j.graphdb.Node;
  */
 public interface JSONHospitalService {
 
-    void buildJSON(Node item, Division parent);
+    /**
+     * build the Division representation in the passed in division object
+     * from the given Node. The node should be initialized
+     * @param item
+     * @param parent 
+     */
+    
+    
+    Division buildDivison(String startDivisionLabel);
 
     String getDisplayMessage(Node currentNode);
 

@@ -36,7 +36,7 @@ public class JsonHospitalTests extends BaseNeo4jTest {
     public static void beforeClass() {
         prepareEmbeddedDatabase(DB_LOCATION);
         jsonService.setNeo4jDb(staticgraphDb);
-        // tString = "";
+
     }
 
     @AfterClass
@@ -45,37 +45,12 @@ public class JsonHospitalTests extends BaseNeo4jTest {
     }
 
     @Test
-    public void testBuildJSON() throws IOException {
-
-        Division root = new Division();
-        Node dItem = jsonService.getDivisionNode(PROGRAM_NAME);
-        String nextItem = (String) dItem.getProperty(DIVISION_DISPLAY_PROPERTY);
-        root.setLabel(nextItem);
-        root.setId(dItem.getId());
-        jsonService.buildJSON(dItem, root);
-       
-       // logger.info("\n" + temp);
-
-
-    }
-    
-    
-    @Test
-    public void JSONToObject() throws Exception
-    {
-        Division root = new Division();
-        Node dItem = jsonService.getDivisionNode(PROGRAM_NAME);
-        String nextItem = (String) dItem.getProperty(DIVISION_DISPLAY_PROPERTY);
-        root.setLabel(nextItem);
-        root.setId(dItem.getId());
-        jsonService.buildJSON(dItem, root);
+    public void JSONToObject() throws Exception {
+        Division root =
+                jsonService.buildDivison(PROGRAM_NAME);
         String temp = jsonService.structureToString(root);
         Division d2 = jsonService.stringToStructure(temp);
-        assertEquals(d2.getChildren().get(2).getLabel(),root.getChildren().get(2).getLabel());
-        
-        
-        
-        
-    }
+        assertEquals(d2.getChildren().get(2).getLabel(), root.getChildren().get(2).getLabel());
 
+    }
 }

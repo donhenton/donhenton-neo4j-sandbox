@@ -36,13 +36,21 @@ public class JSONHospitalServiceImpl implements JSONHospitalService {
         return mapper.readValue(jsonString, Division.class);
     }
 
-    @Override
-    public void buildJSON(Node item, Division parent) {
+     @Override
+    public Division buildDivison(String startDivisionLabel) {
+        Division root = new Division();
+        Node dItem = getDivisionNode(startDivisionLabel);
+        String nextItem = (String) dItem.getProperty(DIVISION_DISPLAY_PROPERTY);
+        root.setLabel(nextItem);
+        root.setId(dItem.getId());
+        buildJSON(dItem, root);
+        return root;
+    }
+    
+    
+    private void buildJSON(Node item, Division parent) {
         String nextItem = getDisplayMessage(item);
         Iterable<Relationship> rels =
-                //  item.getRelationships(Direction.OUTGOING,
-                //  RelationshipTypes.IS_DIVIDED_INTO);
-
                 item.getRelationships(Direction.OUTGOING);
         parent.setLabel(nextItem);
 
@@ -116,4 +124,6 @@ public class JSONHospitalServiceImpl implements JSONHospitalService {
     public void setNeo4jDb(GraphDatabaseService neo4jDb) {
         this.neo4jDb = neo4jDb;
     }
+
+   
 }
