@@ -8,7 +8,7 @@ import com.dhenton9000.neo4j.starter.neo4j.sandbox.BaseNeo4jTest;
 import static com.dhenton9000.neo4j.starter.neo4j.sandbox.hospital.HospitalDbMaker.*;
 import com.dhenton9000.neo4j.starter.neo4j.sandbox.hospital.HospitalDbMaker.NODE_TYPE;
 import com.dhenton9000.neo4j.starter.neo4j.sandbox.hospital.json.Division;
-import com.dhenton9000.neo4j.starter.neo4j.sandbox.hospital.json.JSONHospitalService;
+import com.dhenton9000.neo4j.starter.neo4j.sandbox.hospital.json.JSONHospitalServiceImpl;
 import java.io.IOException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.AfterClass;
@@ -29,7 +29,7 @@ import org.slf4j.LoggerFactory;
 public class JsonHospitalTests extends BaseNeo4jTest {
 
     private final Logger logger = LoggerFactory.getLogger(HospitalTests.class);
-    private static JSONHospitalService jsonService = new JSONHospitalService();
+    private static JSONHospitalServiceImpl jsonService = new JSONHospitalServiceImpl();
     //  private static String tString = "";
 
     @BeforeClass
