@@ -10,6 +10,7 @@ import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
+import org.neo4j.graphdb.Transaction;
 import org.neo4j.graphdb.index.Index;
 
 /**
@@ -23,6 +24,34 @@ public class JSONHospitalServiceImpl implements JSONHospitalService {
     private ObjectMapper mapper = new ObjectMapper();
 
     @Override
+    public Division attachFullTree(Division d) {
+        Transaction tx = getNeo4jDb().beginTx();
+        try {
+            Node graphRefNode = getNeo4jDb().getReferenceNode();
+            String nodeLabel = d.getLabel();
+            Node rootNode = createAndAttachDivisionNode(graphRefNode, nodeLabel);
+            d.setId(rootNode.getId());
+            for (Division dChild : d.getChildren()) {
+                attachSubTree(dChild, rootNode);
+            }
+
+            tx.success();
+        } finally {
+            tx.finish();
+        }
+        return d;
+    }
+
+    private void attachSubTree(Division subD, Node parent) {
+        String nodeLabel = subD.getLabel();
+        Node rootNode = createAndAttachDivisionNode(parent, nodeLabel);
+        subD.setId(rootNode.getId());
+        for (Division dChild : subD.getChildren()) {
+            attachSubTree(dChild, rootNode);
+        }
+    }
+
+    @Override
     public Node createAndAttachDivisionNode(Node parent, String nodeLabel) {
         Node currentNode = getNeo4jDb().createNode();
         parent.createRelationshipTo(currentNode, RelationshipTypes.IS_DIVIDED_INTO);
@@ -32,7 +61,7 @@ public class JSONHospitalServiceImpl implements JSONHospitalService {
         currentNode.setProperty(DIVISION_DISPLAY_PROPERTY, nodeLabel);
         return currentNode;
     }
-    
+
     @Override
     public Node createAndAttachProviderNode(Node parent, String nodeLabel) {
         Node currentNode = getNeo4jDb().createNode();
@@ -43,7 +72,6 @@ public class JSONHospitalServiceImpl implements JSONHospitalService {
         currentNode.setProperty(PROVIDER_DISPLAY_PROPERTY, nodeLabel);
         return currentNode;
     }
-    
 
     @Override
     public String structureToString(Division root) throws IOException {
@@ -63,11 +91,11 @@ public class JSONHospitalServiceImpl implements JSONHospitalService {
         String nextItem = (String) dItem.getProperty(DIVISION_DISPLAY_PROPERTY);
         root.setLabel(nextItem);
         root.setId(dItem.getId());
-        buildJSON(dItem, root);
+        buildDivisionElement(dItem, root);
         return root;
     }
 
-    private void buildJSON(Node item, Division parent) {
+    private void buildDivisionElement(Node item, Division parent) {
         String nextItem = getDisplayMessage(item);
         Iterable<Relationship> rels =
                 item.getRelationships(Direction.OUTGOING);
@@ -81,7 +109,7 @@ public class JSONHospitalServiceImpl implements JSONHospitalService {
                 div.setLabel(lVar);
                 div.setId(currentNode.getId());
                 parent.getChildren().add(div);
-                buildJSON(currentNode, div);
+                buildDivisionElement(currentNode, div);
             }
 
 
@@ -150,8 +178,8 @@ public class JSONHospitalServiceImpl implements JSONHospitalService {
     private Index<Node> getProviderIndex() {
         return getIndex(PROVIDER_DISPLAY_INDEX);
     }
-    
-     private Index<Node> getTypeIndex() {
+
+    private Index<Node> getTypeIndex() {
         return getIndex(TYPE_INDEX);
     }
 

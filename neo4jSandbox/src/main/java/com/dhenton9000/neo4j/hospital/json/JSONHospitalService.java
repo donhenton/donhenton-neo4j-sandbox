@@ -38,18 +38,56 @@ public interface JSONHospitalService {
         TYPE, DIVISIONS, PROVIDERS,  DISTRICTS
     }
     
-    
+    /**
+     * Build a division object from a point in the tree using the start
+     * points division label. For example, build the entire tree starting
+     * from the node 'Midwest'. It will include providers
+     * 
+     * @param startDivisionLabel
+     * @return an assembled division object
+     */
     Division buildDivison(String startDivisionLabel);
-
+    
+    
+    /**
+     * For a given live node compute its label. This takes into account that 
+     * labels for Divisions are stored in one place, for providers in another
+     * @param currentNode
+     * @return 
+     */
     String getDisplayMessage(Node currentNode);
 
+    /**
+     * Lookup a division node by its label. 
+     * @param nodeName
+     * @return null if nothing found
+     */
     Node getDivisionNode(String nodeName);
 
+    /**
+     * given a proper JSON string, return the division object
+     * @param jsonString
+     * @return
+     * @throws IOException 
+     */
     Division stringToStructure(String jsonString) throws IOException;
-
+    /**
+     * given a proper division object get the JSON string
+     * @param root
+     * @return
+     * @throws IOException 
+     */
     String structureToString(Division root) throws IOException;
     
     Node createAndAttachDivisionNode(Node parent, String nodeLabel);
     Node createAndAttachProviderNode(Node parent, String nodeLabel);
+    /**
+     * Given a division attach this whole tree to the root node of the
+     * neo4j graph. The id property can be empty
+     * @param d the graph as as division, this is only a sample, ids will
+     * be filled in when attached
+     * @return the root Division with the id now filled in
+     */
+    public Division attachFullTree(Division d);
     
 }

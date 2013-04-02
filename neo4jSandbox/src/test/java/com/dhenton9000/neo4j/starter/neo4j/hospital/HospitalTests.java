@@ -36,7 +36,8 @@ import org.slf4j.LoggerFactory;
  *
  * @author dhenton
  */
-public class HospitalTests extends BaseNeo4jTest {
+@Ignore
+public class HospitalTests extends HospitalTestBase {
 
     private final Logger logger = LoggerFactory.getLogger(HospitalTests.class);
     private static final int STATE_COUNT = 47;

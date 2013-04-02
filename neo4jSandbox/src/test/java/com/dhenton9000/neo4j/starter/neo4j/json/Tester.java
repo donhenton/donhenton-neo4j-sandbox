@@ -1,24 +1,18 @@
 package com.dhenton9000.neo4j.starter.neo4j.json;
 
-import com.dhenton9000.neo4j.starter.neo4j.sandbox.MatrixTests;
 import com.dhenton9000.neo4j.hospital.json.Division;
-import com.dhenton9000.utils.xml.XMLUtils;
-import static org.junit.Assert.*;
-
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
-
 import junit.framework.Assert;
-
-
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 
 public class Tester {
 
@@ -36,13 +30,13 @@ public class Tester {
         book.setReviewers(revs);
     }
 
-    //@Test
+    @Test
     public void canSerializeBook() {
 
         Assert.assertTrue("Cannot serialize Book class", mapper.canSerialize(Book.class));
     }
 
-    //@Test
+    @Test
     public void BookToJson() throws JsonGenerationException, JsonMappingException, IOException {
         String temp = mapper.defaultPrettyPrintingWriter().writeValueAsString(book);
 
@@ -53,7 +47,7 @@ public class Tester {
         Assert.assertNotNull("Writing Book as JSON string resulted in null.", temp);
     }
 
-    @Test
+    //@Test
     public void testLoadJSON() throws Exception {
         // InputStream in = this.getClass().getClassLoader().getResourceAsStream("json_tree.json");
 
@@ -62,7 +56,7 @@ public class Tester {
 
         Division root = getSampleRoot();
         String temp = mapper.defaultPrettyPrintingWriter().writeValueAsString(root);
-        logger.info("\n" + temp);
+       // logger.info("\n" + temp);
 
     }
 

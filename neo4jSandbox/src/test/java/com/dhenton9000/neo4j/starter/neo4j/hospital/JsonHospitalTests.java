@@ -11,6 +11,7 @@ import com.dhenton9000.neo4j.starter.neo4j.sandbox.BaseNeo4jTest;
 import org.junit.AfterClass;
 import static org.junit.Assert.*;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +20,8 @@ import org.slf4j.LoggerFactory;
  *
  * @author dhenton
  */
-public class JsonHospitalTests extends BaseNeo4jTest {
+@Ignore
+public class JsonHospitalTests extends HospitalTestBase {
 
     private final Logger logger = LoggerFactory.getLogger(HospitalTests.class);
     private static JSONHospitalServiceImpl jsonService = new JSONHospitalServiceImpl();
