@@ -9,6 +9,7 @@ import com.dhenton9000.neo4j.hospital.json.HospitalNode;
 import com.dhenton9000.neo4j.hospital.json.JSONHospitalServiceImpl;
 import java.io.IOException;
 import java.util.ArrayList;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,6 +25,7 @@ public class ImpermanentDivisionTest extends HospitalTestBase {
 
     private final Logger logger = LoggerFactory.getLogger(HospitalTests.class);
     private JSONHospitalServiceImpl jService = new JSONHospitalServiceImpl();
+    private ObjectMapper mapper = new ObjectMapper();
 
     @Before
     public void before() {
@@ -65,11 +67,11 @@ public class ImpermanentDivisionTest extends HospitalTestBase {
         assertEquals(new Long(1L),new Long(d.getId()));
         assertEquals(3,d.getChildren().size());
         
-        Division moeDiv = d.getChildren().get(1);
+        HospitalNode moeDiv = d.getChildren().get(1);
         assertEquals(new Long(3L),new Long(moeDiv.getId()));
         assertEquals("Moe",moeDiv.getLabel());
         assertEquals(3,moeDiv.getChildren().size());
-        Division hueyDiv = moeDiv.getChildren().get(0);
+        HospitalNode hueyDiv = moeDiv.getChildren().get(0);
         assertEquals("Huey",hueyDiv.getLabel());
         assertEquals(new Long(4L),new Long(hueyDiv.getId()));
         logger.info(jService.structureToString(d));
@@ -78,7 +80,7 @@ public class ImpermanentDivisionTest extends HospitalTestBase {
     
         private Division getSampleRoot() {
 
-        ArrayList<Division> children = new ArrayList<Division>();
+        ArrayList<HospitalNode> children = new ArrayList<HospitalNode>();
         Division d = null;
         Division root = new Division();
         root.setLabel("Alpha");
@@ -86,6 +88,7 @@ public class ImpermanentDivisionTest extends HospitalTestBase {
 
         d = new Division();
         d.setLabel("Manny");
+         
         
         children.add(d);
 
@@ -93,7 +96,7 @@ public class ImpermanentDivisionTest extends HospitalTestBase {
         d.setLabel("Moe");
         children.add(d);
 
-        ArrayList<Division> d2 = new ArrayList<Division>();
+        ArrayList<HospitalNode> d2 = new ArrayList<HospitalNode>();
         d.setChildren(d2);
 
         d = new Division();
@@ -113,4 +116,21 @@ public class ImpermanentDivisionTest extends HospitalTestBase {
         return root;
 
     }
+        
+        
+    @Test
+    public void testLoadJSON() throws Exception {
+        // InputStream in = this.getClass().getClassLoader().getResourceAsStream("json_tree.json");
+
+        // mapper.readValue(in, Division.class);
+
+
+        Division root = getSampleRoot();
+        root.getChildren().get(0).setId(new Long(55));
+        String temp = mapper.defaultPrettyPrintingWriter().writeValueAsString(root);
+       logger.info("\n" + temp);
+
+    }  
+        
+        
 }

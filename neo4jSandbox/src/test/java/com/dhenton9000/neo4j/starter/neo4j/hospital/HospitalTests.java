@@ -5,29 +5,19 @@
 package com.dhenton9000.neo4j.starter.neo4j.hospital;
 
 import static com.dhenton9000.neo4j.hospital.json.JSONHospitalService.*;
-import com.dhenton9000.neo4j.hospital.json.JSONHospitalService.NODE_TYPE;
 import com.dhenton9000.neo4j.hospital.json.JSONHospitalService.RelationshipTypes;
-import com.dhenton9000.neo4j.starter.neo4j.sandbox.BaseNeo4jTest;
-import static com.dhenton9000.neo4j.hospital.HospitalDbMaker.DB_LOCATION;
-import static com.dhenton9000.neo4j.hospital.HospitalDbMaker.PROGRAM_NAME;
-import java.util.ArrayList;
 import java.util.Iterator;
 import org.junit.AfterClass;
 import static org.junit.Assert.*;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.neo4j.graphdb.Direction;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Path;
-import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.index.Index;
-import org.neo4j.graphdb.index.IndexHits;
 import org.neo4j.graphdb.traversal.Evaluation;
 import org.neo4j.graphdb.traversal.Evaluator;
-import org.neo4j.graphdb.traversal.Evaluators;
 import org.neo4j.graphdb.traversal.TraversalDescription;
-import org.neo4j.graphdb.traversal.Traverser;
 import org.neo4j.kernel.Traversal;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -107,7 +97,7 @@ public class HospitalTests extends HospitalTestBase {
         }
 
     }
-
+/*
     @Ignore
     public void testBuildTree() {
         String nodeName = "Midwest";
@@ -201,7 +191,7 @@ public class HospitalTests extends HospitalTestBase {
         }
 
     }
-
+*/
     /*
      * treewalking: http://stackoverflow.com/questions/9080929/modeling-an-ordered-tree-with-neo4j
      * 

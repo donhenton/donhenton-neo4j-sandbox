@@ -12,18 +12,20 @@ import org.codehaus.jackson.annotate.JsonTypeName;
  *
  * @author dhenton
  */
-//@JsonTypeName("")
-public class Division  {
+@JsonTypeName("division")
+public class Division implements HospitalNode {
     
     
     private String label;
+    private String type;
     private Long id;
-    private List<Division> children =  new ArrayList<Division>();
+    private List<HospitalNode> children =  new ArrayList<HospitalNode>();
 
     /**
      * @return the label
      */
     
+    @Override
     public String getLabel() {
         return label;
     }
@@ -38,6 +40,7 @@ public class Division  {
     /**
      * @return the id
      */
+    @Override
     public Long getId() {
         return id;
     }
@@ -45,6 +48,7 @@ public class Division  {
     /**
      * @param id the id to set
      */
+    @Override
     public void setId(Long id) {
         this.id = id;
     }
@@ -53,9 +57,8 @@ public class Division  {
     /**
      * @return the children
      */
-    
-     
-    public List<Division> getChildren() {
+    @Override
+    public List<HospitalNode> getChildren() {
         return children;
     }
 
@@ -63,14 +66,20 @@ public class Division  {
      * @param children the children to set
      */
     
-    public void setChildren(List<Division> children) {
+    @Override
+    public void setChildren(List<HospitalNode> children) {
         this.children = children;
     }
 
-//    @Override
-//    public NODE_TYPE getNodeType() {
-//        return NODE_TYPE.DIVISIONS;
-//    }
+     
+      @Override
+    public String getType() {
+        return JSONHospitalService.NODE_TYPE.DIVISIONS.toString();
+    }
+
+    
+
+    
     
     
     

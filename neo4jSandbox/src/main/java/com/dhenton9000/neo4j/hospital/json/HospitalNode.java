@@ -14,25 +14,21 @@ import org.codehaus.jackson.annotate.JsonTypeInfo.As;
  * @author dhenton
  */
 
-@JsonTypeInfo(use=JsonTypeInfo.Id.NAME, include=As.WRAPPER_OBJECT, property="type")
+@JsonTypeInfo(use=JsonTypeInfo.Id.NONE, include=As.PROPERTY, property="type")
   @JsonSubTypes({
 
         @JsonSubTypes.Type(value=Division.class),
-
         @JsonSubTypes.Type(value=Provider.class)
 
     }) 
 public interface HospitalNode {
 
     String getLabel();
-
     List<HospitalNode> getChildren();
-
     void setChildren(List<HospitalNode> children);
-
     public Long getId();
-
     public void setId(Long id);
+    public String getType();
     
-   
+     
 }

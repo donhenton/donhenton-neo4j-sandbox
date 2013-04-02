@@ -48,63 +48,7 @@ public class Tester {
         Assert.assertNotNull("Writing Book as JSON string resulted in null.", temp);
     }
 
-    //@Test
-    public void testLoadJSON() throws Exception {
-        // InputStream in = this.getClass().getClassLoader().getResourceAsStream("json_tree.json");
+   
 
-        // mapper.readValue(in, Division.class);
-
-
-        Division root = getSampleRoot();
-        String temp = mapper.defaultPrettyPrintingWriter().writeValueAsString(root);
-       // logger.info("\n" + temp);
-
-    }
-
-    private Division getSampleRoot() {
-
-        ArrayList<Division> children = new ArrayList<Division>();
-        Division d = null;
-        Division root = new Division();
-        root.setLabel("Alpha");
-        root.setId(new Long(1));
-
-        d = new Division();
-        d.setLabel("Manny");
-        d.setId(new Long(100));
-        children.add(d);
-
-        d = new Division();
-        d.setLabel("Moe");
-        d.setId(new Long(101));
-        children.add(d);
-
-        ArrayList<Division> d2 = new ArrayList<Division>();
-        d.setChildren(d2);
-
-        d = new Division();
-        d.setLabel("Huey");
-        d.setId(new Long(201));
-        d2.add(d);
-        d = new Division();
-        d.setLabel("Dewey");
-        d.setId(new Long(202));
-        d2.add(d);
-        d = new Division();
-        d.setLabel("Louie");
-        d.setId(new Long(203));
-        d2.add(d);
-
-        d = new Division();
-        d.setLabel("Jack");
-        d.setId(new Long(102));
-        children.add(d);
-
-
-        root.setChildren(children);
-
-        return root;
-
-
-    }
+   
 }
