@@ -4,19 +4,15 @@
  */
 package com.dhenton9000.neo4j.hospital;
 
-import com.dhenton9000.neo4j.hospital.json.JSONHospitalService;
 import static com.dhenton9000.neo4j.hospital.json.JSONHospitalService.*;
-import com.dhenton9000.neo4j.hospital.json.JSONHospitalService.NODE_TYPE;
-import com.dhenton9000.neo4j.hospital.json.JSONHospitalService.RelationshipTypes;
 import com.dhenton9000.neo4j.hospital.json.JSONHospitalServiceImpl;
 import com.dhenton9000.neo4j.utils.DatabaseHelper;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Transaction;
-import org.neo4j.graphdb.index.Index;
-import org.neo4j.graphdb.index.IndexHits;
 import org.neo4j.kernel.EmbeddedGraphDatabase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +27,7 @@ public class HospitalDbMaker {
     private static final Logger logger = LoggerFactory.getLogger(HospitalDbMaker.class);
     public static final String STATE_ROOT_LABEL = "STATES";
     public static final String PROGRAM_NAME = "Blue Cross";
-    private EmbeddedGraphDatabase graphDb;
+    private GraphDatabaseService graphDb;
     public static final String DB_LOCATION = "/home/dhenton/neo4j/mydata/hospital.db";
     private JSONHospitalServiceImpl jService = new JSONHospitalServiceImpl();
     public static final HashMap<String, List<String>> divisionMap = new HashMap<String, List<String>>();
@@ -43,16 +39,17 @@ public class HospitalDbMaker {
         "Nebraska", "Kansas", "Minnesota", "Iowa"};
     String[] division5 = {"Delaware", "Maryland", "District of Columbia", "Virginia",
         "West Virginia", "North Carolina", "South Carolina", "Georgia", "Florida"};
-    String[] division6 = {"Kentucky", "Tennessee", "Mississippi", "Alabama"};
+    String[] division6 = {"Kentucky", "Tennessee", "Mississippi", "Alabama",
+        "Arkansas", "Louisiana", "Oklahoma"};
     String[] division7 = {"Idaho", "Montana", "Wyoming", "Nevada", "Utah",
         "Colorado", "Arizona", "New Mexico"};
     String[] division8 = {"Alaska", "Washington", "Oregon", "California", "Hawaii"};
     String[] divisionName = {"New England", "Mid Atlantic",
         "East North Central", "West North Central", "East South Central",
         "West South Central", "Mountain", "Pacific"};
-   // private Index<Node> indexDivisionsDisplay;
-  //  private Index<Node> indexProvidersDisplay;
-  //  private Index<Node> indexTypes;
+    // private Index<Node> indexDivisionsDisplay;
+    //  private Index<Node> indexProvidersDisplay;
+    //  private Index<Node> indexTypes;
     public int districtNumber = 0;
     public int providerNumber = 0;
     private List<Node> stateArray = new ArrayList<Node>();
@@ -106,11 +103,11 @@ public class HospitalDbMaker {
         int numProviders = d.intValue() + 2;
         for (int i = 0; i < numProviders; i++) {
             providerNumber++;;
-            
+
             String label = "P" + String.format("%03d", providerNumber);
             Node providerNode = jService.createAndAttachProviderNode(rootNode, label);
             providerNode.setProperty(PROVIDER_DISPLAY_PROPERTY, label);
-  
+
 
 
         }
@@ -169,8 +166,7 @@ public class HospitalDbMaker {
     }
 
     public void doDBCreate() throws Exception {
-        DatabaseHelper dbHelper = new DatabaseHelper();
-        graphDb = dbHelper.createDatabase(DB_LOCATION, true);
+
         Transaction tx = graphDb.beginTx();
         jService.setNeo4jDb(graphDb);
 
@@ -191,15 +187,26 @@ public class HospitalDbMaker {
         }
 
 
-        //  dbHelper.dumpGraphToConsole(graphDb);
+    }
+
+    public void doShutdown() {
         graphDb.shutdown();
 
     }
 
+    public void setNeo4jDb(GraphDatabaseService g) {
+        graphDb = g;
+    }
+
     public static void main(String[] args) {
         HospitalDbMaker hospitialDbCreator = new HospitalDbMaker();
+        DatabaseHelper dbHelper = new DatabaseHelper();
+
         try {
+            EmbeddedGraphDatabase g = dbHelper.createDatabase(DB_LOCATION, true);
+            hospitialDbCreator.setNeo4jDb(g);
             hospitialDbCreator.doDBCreate();
+            hospitialDbCreator.doShutdown();
         } catch (Exception ex) {
             logger.error("Problem ", ex);
         }

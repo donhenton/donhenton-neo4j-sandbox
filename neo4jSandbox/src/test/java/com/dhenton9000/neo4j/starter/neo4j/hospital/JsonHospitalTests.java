@@ -20,7 +20,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author dhenton
  */
-@Ignore
+
 public class JsonHospitalTests extends HospitalTestBase {
 
     private final Logger logger = LoggerFactory.getLogger(HospitalTests.class);
@@ -29,7 +29,7 @@ public class JsonHospitalTests extends HospitalTestBase {
 
     @BeforeClass
     public static void beforeClass() {
-        prepareEmbeddedDatabase(DB_LOCATION);
+        prepareStaticHospitalTestDatabase();
         jsonService.setNeo4jDb(staticgraphDb);
 
     }

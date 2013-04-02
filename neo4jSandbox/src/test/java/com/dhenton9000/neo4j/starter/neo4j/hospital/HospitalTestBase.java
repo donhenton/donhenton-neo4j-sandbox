@@ -4,7 +4,10 @@
  */
 package com.dhenton9000.neo4j.starter.neo4j.hospital;
 
+import com.dhenton9000.neo4j.hospital.HospitalDbMaker;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.factory.GraphDatabaseFactory;
 import org.neo4j.test.ImpermanentGraphDatabase;
@@ -45,6 +48,24 @@ public class HospitalTestBase {
 
         graphDb = new ImpermanentGraphDatabase(config);
     }
+    
+    protected static void prepareStaticHospitalTestDatabase()
+    {
+         staticgraphDb = new TestGraphDatabaseFactory().newImpermanentDatabaseBuilder().newGraphDatabase();
+         registerShutdownHook();
+         HospitalDbMaker hMaker = new HospitalDbMaker();
+         hMaker.setNeo4jDb(staticgraphDb);
+        try {
+            hMaker.doDBCreate();
+        } catch (Exception ex) {
+           throw new RuntimeException("database create problem "+ 
+                   ex.getClass()+" "+ex.getMessage());
+        }
+         
+    }
+    
+    
+    
 
     /**
      * this would be called in the @After method
