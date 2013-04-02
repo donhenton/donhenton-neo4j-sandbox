@@ -18,12 +18,13 @@ import org.slf4j.LoggerFactory;
 import static org.junit.Assert.*;
 
 /**
- *
+ * uses simple tree to test writing an entire tree to an 
+ * impermanent neo4j db
  * @author dhenton
  */
 public class ImpermanentDivisionTest extends HospitalTestBase {
 
-    private final Logger logger = LoggerFactory.getLogger(HospitalTests.class);
+    private final Logger logger = LoggerFactory.getLogger(ImpermanentDivisionTest.class);
     private JSONHospitalServiceImpl jService = new JSONHospitalServiceImpl();
     private ObjectMapper mapper = new ObjectMapper();
 

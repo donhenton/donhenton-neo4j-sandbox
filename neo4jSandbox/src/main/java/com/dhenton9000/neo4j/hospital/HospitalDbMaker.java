@@ -105,8 +105,8 @@ public class HospitalDbMaker {
             providerNumber++;;
 
             String label = "P" + String.format("%03d", providerNumber);
-            Node providerNode = jService.createAndAttachProviderNode(rootNode, label);
-            providerNode.setProperty(PROVIDER_DISPLAY_PROPERTY, label);
+            jService.createAndAttachProviderNode(rootNode, label);
+          //  providerNode.setProperty(PROVIDER_DISPLAY_PROPERTY, label);
 
 
 

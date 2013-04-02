@@ -7,3 +7,84 @@ match n-[*]->b where b.TYPE = "PROVIDERS" return n,b;
 #List of all states
 start n=node(1) match n-[IS_DIVIDED_INTO*3]->b 
 return n.division_display_property,b.division_display_property;
+
+
+#Get all providers (Case sensitive)
+start n=node:type_index(TYPE='PROVIDERS') return n;
+
+
+
+==================
+
+
+   /*
+     * treewalking: http://stackoverflow.com/questions/9080929/modeling-an-ordered-tree-with-neo4j
+     * 
+     
+     /reusable traversal description
+     final private TraversalDescription AST_TRAVERSAL = Traversal.description()
+     .depthFirst()
+     .expand(new OrderedByTypeExpander()
+     .add(RelType.FIRST_CHILD, Direction.OUTGOING)
+     .add(RelType.NEXT_SIBLING, Direction.OUTGOING));
+     and then when I actually needed to walk the tree I could just do
+
+     for(Path path : AST_TRAVERSAL.traverse(astRoot)){
+     //do stuff here
+     }
+      
+     start n=node:division_display_index(division_display_property="New York") match n-[?]->a-[?]->b where b.TYPE = "PROVIDERS" return b;
+     start n=node:division_display_index(division_display_property= 'New York') return n;
+     start n=node:division_display_index(division_display_property= 'Northeast') match n -[:IS_DIVIDED_INTO*]-> o return o;
+    
+     ClientConfig clientConfig = new DefaultClientConfig();
+     Client client = Client.create(clientConfig);
+
+     WebResource resource = jerseyClient.resource(employeeListServiceInternalEndpoint);
+     ClientResponse response = resource.path(companyId.toString()).path(employeeLastName).accept(MediaType.APPLICATION_XML_TYPE).get(ClientResponse.class);
+     if (response.getClientResponseStatus().getStatusCode() == Status.OK.getStatusCode()) {
+     MyJaxbClassList entity = response.getEntity(MyJaxbClass.class);
+     List<MyJaxbClass> results = new ArrayList<MyJaxbClass>(entity.getThings());
+     return results;
+     } else {
+     return Collections.EMPTY_LIST;
+     }
+    
+    
+     */
+
+=====================================
+   @Test
+    public void testGetNewYorkProviders() {
+        String nodeName = "New York";
+        Node dItem = getDivisionNode(nodeName);
+        assertNotNull(dItem);
+        assertEquals(nodeName, dItem.getProperty(DIVISION_DISPLAY_PROPERTY));
+        logger.debug("" + dItem.getProperty(DIVISION_DISPLAY_PROPERTY));
+        TraversalDescription providers =
+                Traversal.description()
+                .relationships(RelationshipTypes.IS_DIVIDED_INTO, Direction.OUTGOING)
+                .depthFirst()
+                .evaluator(new Evaluator() {
+            @Override
+            public Evaluation evaluate(Path path) {
+
+                return Evaluation.INCLUDE_AND_CONTINUE;
+
+
+            }
+        });
+
+
+        Iterable<Node> nodeList = providers.traverse(dItem).nodes();
+
+        Iterator<Node> iter = nodeList.iterator();
+        while (iter.hasNext()) {
+            Node t = iter.next();
+            //    logger.debug("type " + t.getProperty(NODE_TYPE.TYPE.toString(), "NULL"));
+            // logger.debug("display " + t.getProperty(PROVIDER_DISPLAY_PROPERTY, "NULL"));
+
+
+        }
+
+    }

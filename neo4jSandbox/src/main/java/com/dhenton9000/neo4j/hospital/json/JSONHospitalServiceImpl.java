@@ -68,7 +68,7 @@ public class JSONHospitalServiceImpl implements JSONHospitalService {
         parent.createRelationshipTo(currentNode, RelationshipTypes.DERIVES_SERVICE_FROM);
         getTypeIndex().add(currentNode, NODE_TYPE.TYPE.toString(), NODE_TYPE.PROVIDERS.toString());
         currentNode.setProperty(NODE_TYPE.TYPE.toString(), NODE_TYPE.PROVIDERS.toString());
-        getDivisionIndex().add(currentNode, PROVIDER_DISPLAY_PROPERTY, nodeLabel);
+        getProviderIndex().add(currentNode, PROVIDER_DISPLAY_PROPERTY, nodeLabel);
         currentNode.setProperty(PROVIDER_DISPLAY_PROPERTY, nodeLabel);
         return currentNode;
     }
