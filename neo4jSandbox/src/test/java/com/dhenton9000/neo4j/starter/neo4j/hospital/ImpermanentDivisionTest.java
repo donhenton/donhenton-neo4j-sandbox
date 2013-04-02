@@ -19,7 +19,7 @@ import static org.junit.Assert.*;
  *
  * @author dhenton
  */
-public class ImpermanentDivisionTests extends HospitalTestBase {
+public class ImpermanentDivisionTest extends HospitalTestBase {
 
     private final Logger logger = LoggerFactory.getLogger(HospitalTests.class);
     private JSONHospitalServiceImpl jService = new JSONHospitalServiceImpl();
