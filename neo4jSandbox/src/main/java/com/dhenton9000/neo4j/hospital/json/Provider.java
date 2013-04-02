@@ -10,4 +10,8 @@ package com.dhenton9000.neo4j.hospital.json;
  */
 public class Provider {
     
+     
+    public JSONHospitalService.NODE_TYPE getNodeType() {
+        return JSONHospitalService.NODE_TYPE.PROVIDERS;
+    }
 }

@@ -1,6 +1,7 @@
 package com.dhenton9000.neo4j.starter.neo4j.json;
 
 import com.dhenton9000.neo4j.hospital.json.Division;
+import com.dhenton9000.neo4j.hospital.json.HospitalNode;
 import java.io.IOException;
 import java.util.ArrayList;
 import junit.framework.Assert;
@@ -62,7 +63,7 @@ public class Tester {
 
     private Division getSampleRoot() {
 
-        ArrayList<Division> children = new ArrayList<Division>();
+        ArrayList<HospitalNode> children = new ArrayList<HospitalNode>();
         Division d = null;
         Division root = new Division();
         root.setLabel("Alpha");
@@ -78,7 +79,7 @@ public class Tester {
         d.setId(new Long(101));
         children.add(d);
 
-        ArrayList<Division> d2 = new ArrayList<Division>();
+        ArrayList<HospitalNode> d2 = new ArrayList<HospitalNode>();
         d.setChildren(d2);
 
         d = new Division();

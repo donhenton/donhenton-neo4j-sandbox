@@ -5,6 +5,7 @@
 package com.dhenton9000.neo4j.starter.neo4j.hospital;
 
 import com.dhenton9000.neo4j.hospital.json.Division;
+import com.dhenton9000.neo4j.hospital.json.HospitalNode;
 import com.dhenton9000.neo4j.hospital.json.JSONHospitalServiceImpl;
 import java.util.ArrayList;
 import org.junit.After;
@@ -63,11 +64,11 @@ public class ImpermanentDivisionTests extends HospitalTestBase {
         assertEquals(new Long(1L),new Long(d.getId()));
         assertEquals(3,d.getChildren().size());
         
-        Division moeDiv = d.getChildren().get(1);
+        HospitalNode moeDiv = d.getChildren().get(1);
         assertEquals(new Long(3L),new Long(moeDiv.getId()));
         assertEquals("Moe",moeDiv.getLabel());
         assertEquals(3,moeDiv.getChildren().size());
-        Division hueyDiv = moeDiv.getChildren().get(0);
+        HospitalNode hueyDiv = moeDiv.getChildren().get(0);
         assertEquals("Huey",hueyDiv.getLabel());
         assertEquals(new Long(4L),new Long(hueyDiv.getId()));
         
@@ -76,7 +77,7 @@ public class ImpermanentDivisionTests extends HospitalTestBase {
     
         private Division getSampleRoot() {
 
-        ArrayList<Division> children = new ArrayList<Division>();
+        ArrayList<HospitalNode> children = new ArrayList<HospitalNode>();
         Division d = null;
         Division root = new Division();
         root.setLabel("Alpha");
@@ -91,7 +92,7 @@ public class ImpermanentDivisionTests extends HospitalTestBase {
         d.setLabel("Moe");
         children.add(d);
 
-        ArrayList<Division> d2 = new ArrayList<Division>();
+        ArrayList<HospitalNode> d2 = new ArrayList<HospitalNode>();
         d.setChildren(d2);
 
         d = new Division();
