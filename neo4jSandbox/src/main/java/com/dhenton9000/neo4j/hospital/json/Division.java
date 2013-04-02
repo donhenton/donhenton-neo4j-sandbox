@@ -4,29 +4,26 @@
  */
 package com.dhenton9000.neo4j.hospital.json;
 
-import com.dhenton9000.neo4j.hospital.json.JSONHospitalService.NODE_TYPE;
 import java.util.ArrayList;
 import java.util.List;
-import org.codehaus.jackson.annotate.JsonSubTypes;
-import org.codehaus.jackson.annotate.JsonTypeInfo;
 import org.codehaus.jackson.annotate.JsonTypeName;
 
 /**
  *
  * @author dhenton
  */
-@JsonTypeName("division")
-public class Division implements HospitalNode {
+//@JsonTypeName("")
+public class Division  {
     
     
     private String label;
     private Long id;
-    private List<HospitalNode> children =  new ArrayList<HospitalNode>();
+    private List<Division> children =  new ArrayList<Division>();
 
     /**
      * @return the label
      */
-    @Override
+    
     public String getLabel() {
         return label;
     }
@@ -56,17 +53,17 @@ public class Division implements HospitalNode {
     /**
      * @return the children
      */
-    @Override
+    
      
-    public List<HospitalNode> getChildren() {
+    public List<Division> getChildren() {
         return children;
     }
 
     /**
      * @param children the children to set
      */
-    @Override
-    public void setChildren(List<HospitalNode> children) {
+    
+    public void setChildren(List<Division> children) {
         this.children = children;
     }
 

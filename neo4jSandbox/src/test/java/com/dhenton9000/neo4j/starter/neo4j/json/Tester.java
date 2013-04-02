@@ -63,7 +63,7 @@ public class Tester {
 
     private Division getSampleRoot() {
 
-        ArrayList<HospitalNode> children = new ArrayList<HospitalNode>();
+        ArrayList<Division> children = new ArrayList<Division>();
         Division d = null;
         Division root = new Division();
         root.setLabel("Alpha");
@@ -79,7 +79,7 @@ public class Tester {
         d.setId(new Long(101));
         children.add(d);
 
-        ArrayList<HospitalNode> d2 = new ArrayList<HospitalNode>();
+        ArrayList<Division> d2 = new ArrayList<Division>();
         d.setChildren(d2);
 
         d = new Division();

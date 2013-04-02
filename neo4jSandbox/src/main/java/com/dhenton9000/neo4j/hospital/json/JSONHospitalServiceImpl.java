@@ -31,7 +31,7 @@ public class JSONHospitalServiceImpl implements JSONHospitalService {
             String nodeLabel = d.getLabel();
             Node rootNode = createAndAttachDivisionNode(graphRefNode, nodeLabel);
             d.setId(rootNode.getId());
-            for (HospitalNode dChild : d.getChildren()) {
+            for (Division dChild : d.getChildren()) {
                 attachSubTree(dChild, rootNode);
             }
 
@@ -42,11 +42,11 @@ public class JSONHospitalServiceImpl implements JSONHospitalService {
         return d;
     }
 
-    private void attachSubTree(HospitalNode subD, Node parent) {
+    private void attachSubTree(Division subD, Node parent) {
         String nodeLabel = subD.getLabel();
         Node rootNode = createAndAttachDivisionNode(parent, nodeLabel);
         subD.setId(rootNode.getId());
-        for (HospitalNode dChild : subD.getChildren()) {
+        for (Division dChild : subD.getChildren()) {
             attachSubTree(dChild, rootNode);
         }
     }

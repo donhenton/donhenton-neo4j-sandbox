@@ -4,14 +4,11 @@
  */
 package com.dhenton9000.neo4j.hospital.json;
 
-import org.codehaus.jackson.annotate.JsonSubTypes;
-import org.codehaus.jackson.annotate.JsonTypeName;
-
 /**
  *
  * @author dhenton
  */
-@JsonTypeName("provider")
+//@JsonTypeName("provider")
 public class Provider {
     
      

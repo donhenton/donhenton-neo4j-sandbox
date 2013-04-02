@@ -65,11 +65,11 @@ public class ImpermanentDivisionTest extends HospitalTestBase {
         assertEquals(new Long(1L),new Long(d.getId()));
         assertEquals(3,d.getChildren().size());
         
-        HospitalNode moeDiv = d.getChildren().get(1);
+        Division moeDiv = d.getChildren().get(1);
         assertEquals(new Long(3L),new Long(moeDiv.getId()));
         assertEquals("Moe",moeDiv.getLabel());
         assertEquals(3,moeDiv.getChildren().size());
-        HospitalNode hueyDiv = moeDiv.getChildren().get(0);
+        Division hueyDiv = moeDiv.getChildren().get(0);
         assertEquals("Huey",hueyDiv.getLabel());
         assertEquals(new Long(4L),new Long(hueyDiv.getId()));
         logger.info(jService.structureToString(d));
@@ -78,7 +78,7 @@ public class ImpermanentDivisionTest extends HospitalTestBase {
     
         private Division getSampleRoot() {
 
-        ArrayList<HospitalNode> children = new ArrayList<HospitalNode>();
+        ArrayList<Division> children = new ArrayList<Division>();
         Division d = null;
         Division root = new Division();
         root.setLabel("Alpha");
@@ -93,7 +93,7 @@ public class ImpermanentDivisionTest extends HospitalTestBase {
         d.setLabel("Moe");
         children.add(d);
 
-        ArrayList<HospitalNode> d2 = new ArrayList<HospitalNode>();
+        ArrayList<Division> d2 = new ArrayList<Division>();
         d.setChildren(d2);
 
         d = new Division();
