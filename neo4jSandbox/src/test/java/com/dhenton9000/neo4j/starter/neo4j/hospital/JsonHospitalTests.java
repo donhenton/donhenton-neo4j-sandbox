@@ -46,6 +46,6 @@ public class JsonHospitalTests extends HospitalTestBase {
         String temp = jsonService.structureToString(root);
         Division d2 = jsonService.stringToStructure(temp);
         assertEquals(d2.getChildren().get(2).getLabel(), root.getChildren().get(2).getLabel());
-
+        logger.info("\n"+temp);
     }
 }
