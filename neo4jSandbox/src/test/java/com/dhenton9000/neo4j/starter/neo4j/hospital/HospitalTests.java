@@ -36,7 +36,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author dhenton
  */
-@Ignore
+
 public class HospitalTests extends HospitalTestBase {
 
     private final Logger logger = LoggerFactory.getLogger(HospitalTests.class);
@@ -45,7 +45,7 @@ public class HospitalTests extends HospitalTestBase {
 
     @BeforeClass
     public static void beforeClass() {
-        prepareEmbeddedDatabase(DB_LOCATION);
+        prepareStaticHospitalTestDatabase();
         // tString = "";
     }
 

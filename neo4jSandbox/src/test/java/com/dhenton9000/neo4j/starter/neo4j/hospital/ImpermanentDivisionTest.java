@@ -7,6 +7,7 @@ package com.dhenton9000.neo4j.starter.neo4j.hospital;
 import com.dhenton9000.neo4j.hospital.json.Division;
 import com.dhenton9000.neo4j.hospital.json.HospitalNode;
 import com.dhenton9000.neo4j.hospital.json.JSONHospitalServiceImpl;
+import java.io.IOException;
 import java.util.ArrayList;
 import org.junit.After;
 import org.junit.Before;
@@ -54,7 +55,7 @@ public class ImpermanentDivisionTest extends HospitalTestBase {
     }
     
      @Test
-    public void testCreateNeo4jGraphFromSample()
+    public void testCreateNeo4jGraphFromSample() throws IOException
     {
         String label = "Alpha";
         Division d = getSampleRoot();
@@ -71,7 +72,7 @@ public class ImpermanentDivisionTest extends HospitalTestBase {
         HospitalNode hueyDiv = moeDiv.getChildren().get(0);
         assertEquals("Huey",hueyDiv.getLabel());
         assertEquals(new Long(4L),new Long(hueyDiv.getId()));
-        
+        logger.info(jService.structureToString(d));
         
     }
     
