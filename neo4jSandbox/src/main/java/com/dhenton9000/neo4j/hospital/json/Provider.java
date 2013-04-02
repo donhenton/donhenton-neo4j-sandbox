@@ -14,13 +14,14 @@ import java.util.List;
 //@JsonTypeName("provider")
 public class Provider extends Division {
 
-    
-
     @Override
-    public String getType() {
-        return NODE_TYPE.PROVIDERS.toString();
+    public String getNodeType() {
+       return NODE_TYPE.PROVIDERS.toString();
     }
 
+    
+
+    
     
     
      

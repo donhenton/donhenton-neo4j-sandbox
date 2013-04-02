@@ -72,9 +72,15 @@ public class Division implements HospitalNode {
     }
 
      
-      @Override
-    public String getType() {
+ 
+    @Override
+    public String getNodeType() {
         return JSONHospitalService.NODE_TYPE.DIVISIONS.toString();
+    }
+
+    @Override
+    public void setNodeType(String t) {
+        
     }
 
     
