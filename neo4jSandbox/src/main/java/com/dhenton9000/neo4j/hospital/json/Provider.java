@@ -4,25 +4,15 @@
  */
 package com.dhenton9000.neo4j.hospital.json;
 
-import com.dhenton9000.neo4j.hospital.json.JSONHospitalService.NODE_TYPE;
-import java.util.List;
+import org.codehaus.jackson.annotate.JsonTypeName;
 
 /**
  *
  * @author dhenton
  */
-//@JsonTypeName("provider")
+@JsonTypeName("provider")
 public class Provider extends Division {
 
-    @Override
-    public String getNodeType() {
-       return NODE_TYPE.PROVIDERS.toString();
-    }
-
-    
-
-    
-    
     
      
     

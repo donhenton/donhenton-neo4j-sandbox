@@ -17,7 +17,7 @@ public class Division implements HospitalNode {
     
     
     private String label;
-    private String type;
+   // private String type;
     private Long id;
     private List<HospitalNode> children =  new ArrayList<HospitalNode>();
 
@@ -73,16 +73,7 @@ public class Division implements HospitalNode {
 
      
  
-    @Override
-    public String getNodeType() {
-        return JSONHospitalService.NODE_TYPE.DIVISIONS.toString();
-    }
-
-    @Override
-    public void setNodeType(String t) {
-        
-    }
-
+     
     
 
     

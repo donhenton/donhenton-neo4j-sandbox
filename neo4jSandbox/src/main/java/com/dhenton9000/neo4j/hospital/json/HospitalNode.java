@@ -28,8 +28,8 @@ public interface HospitalNode {
     void setChildren(List<HospitalNode> children);
     public Long getId();
     public void setId(Long id);
-    public String getNodeType();
-    public void setNodeType(String t);
+    //public String getNodeType();
+    //public void setNodeType(String t);
    
      
 }
