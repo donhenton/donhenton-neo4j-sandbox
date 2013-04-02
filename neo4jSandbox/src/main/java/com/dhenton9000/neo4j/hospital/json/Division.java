@@ -7,11 +7,15 @@ package com.dhenton9000.neo4j.hospital.json;
 import com.dhenton9000.neo4j.hospital.json.JSONHospitalService.NODE_TYPE;
 import java.util.ArrayList;
 import java.util.List;
+import org.codehaus.jackson.annotate.JsonSubTypes;
+import org.codehaus.jackson.annotate.JsonTypeInfo;
+import org.codehaus.jackson.annotate.JsonTypeName;
 
 /**
  *
  * @author dhenton
  */
+@JsonTypeName("division")
 public class Division implements HospitalNode {
     
     
@@ -53,6 +57,7 @@ public class Division implements HospitalNode {
      * @return the children
      */
     @Override
+     
     public List<HospitalNode> getChildren() {
         return children;
     }
@@ -65,10 +70,10 @@ public class Division implements HospitalNode {
         this.children = children;
     }
 
-    @Override
-    public NODE_TYPE getNodeType() {
-        return NODE_TYPE.DIVISIONS;
-    }
+//    @Override
+//    public NODE_TYPE getNodeType() {
+//        return NODE_TYPE.DIVISIONS;
+//    }
     
     
     
