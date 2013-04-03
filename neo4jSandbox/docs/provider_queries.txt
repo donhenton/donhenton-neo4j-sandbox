@@ -12,6 +12,12 @@ return n.division_display_property,b.division_display_property;
 #Get all providers (Case sensitive)
 start n=node:type_index(TYPE='PROVIDERS') return n;
 
+#get the company that the provider belongs to, company is divided as being
+#one hop off the root
+
+ start p=node:provider_display_index(provider_display_property="P001"),
+ z=node(0) match p<-[*]-d where z-[*1]->d and d.TYPE = 'DIVISIONS' return p,d;
+
 
 
 ==================
