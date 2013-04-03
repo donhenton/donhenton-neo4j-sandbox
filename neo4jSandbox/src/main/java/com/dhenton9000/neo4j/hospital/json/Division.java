@@ -12,7 +12,7 @@ import org.codehaus.jackson.annotate.JsonTypeName;
  *
  * @author dhenton
  */
-@JsonTypeName("division")
+@JsonTypeName("Division")
 public class Division implements HospitalNode {
     
     

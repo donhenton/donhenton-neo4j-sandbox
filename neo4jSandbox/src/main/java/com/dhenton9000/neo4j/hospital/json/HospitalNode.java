@@ -17,17 +17,18 @@ import org.codehaus.jackson.annotate.JsonTypeInfo.As;
 @JsonTypeInfo(use=JsonTypeInfo.Id.NAME, include=As.PROPERTY, property="type")
   @JsonSubTypes({
 
-        @JsonSubTypes.Type(value=Division.class),
-        @JsonSubTypes.Type(value=Provider.class)
+        @JsonSubTypes.Type(name="Division",value=Division.class),
+        @JsonSubTypes.Type(name="Provider",value=Provider.class)
 
     }) 
 public interface HospitalNode {
 
     String getLabel();
+    void setLabel(String t);
     List<HospitalNode> getChildren();
     void setChildren(List<HospitalNode> children);
-    public Long getId();
-    public void setId(Long id);
+    Long getId();
+    void setId(Long id);
     //public String getNodeType();
     //public void setNodeType(String t);
    

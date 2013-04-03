@@ -85,7 +85,7 @@ public class JSONHospitalServiceImpl implements JSONHospitalService {
     }
 
     @Override
-    public Division buildDivison(String startDivisionLabel) {
+    public Division buildDivisonFromDb(String startDivisionLabel) {
         Division root = new Division();
         Node dItem = getDivisionNode(startDivisionLabel);
         String nextItem = (String) dItem.getProperty(DIVISION_DISPLAY_PROPERTY);
@@ -95,7 +95,7 @@ public class JSONHospitalServiceImpl implements JSONHospitalService {
         return root;
     }
 
-    private void buildDivisionElement(Node item, Division parent) {
+    private void buildDivisionElement(Node item, HospitalNode parent) {
         String nextItem = getDisplayMessage(item);
         Iterable<Relationship> rels =
                 item.getRelationships(Direction.OUTGOING);
@@ -103,13 +103,29 @@ public class JSONHospitalServiceImpl implements JSONHospitalService {
 
         if (rels.iterator().hasNext()) {
             for (Relationship r : rels) {
-                Division div = new Division();
+                HospitalNode hNode = new Division();
                 Node currentNode = r.getEndNode();
+                NODE_TYPE type = getNodeType(currentNode);
+                switch (type) {
+                    case DIVISIONS:
+
+                        hNode = new Division();
+                        break;
+
+                    case PROVIDERS:
+                        hNode = new Provider();
+                        break;
+
+                    default:
+                        throw new RuntimeException(" got fault " + currentNode.toString());
+                }
+
+
                 String lVar = getDisplayMessage(currentNode);
-                div.setLabel(lVar);
-                div.setId(currentNode.getId());
-                parent.getChildren().add(div);
-                buildDivisionElement(currentNode, div);
+                hNode.setLabel(lVar);
+                hNode.setId(currentNode.getId());
+                parent.getChildren().add(hNode);
+                buildDivisionElement(currentNode, hNode);
             }
 
 

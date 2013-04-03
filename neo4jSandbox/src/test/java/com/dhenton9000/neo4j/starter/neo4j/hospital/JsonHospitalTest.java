@@ -6,6 +6,7 @@ package com.dhenton9000.neo4j.starter.neo4j.hospital;
 
 import static com.dhenton9000.neo4j.hospital.HospitalDbMaker.*;
 import com.dhenton9000.neo4j.hospital.json.Division;
+import com.dhenton9000.neo4j.hospital.json.HospitalNode;
 import com.dhenton9000.neo4j.hospital.json.JSONHospitalServiceImpl;
 import java.util.Iterator;
 import java.util.List;
@@ -20,7 +21,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import static org.neo4j.helpers.collection.IteratorUtil.asIterable;
 import org.neo4j.kernel.impl.util.StringLogger;
-import org.neo4j.kernel.logging.LogbackService.Slf4jStringLogger;
  
  
 
@@ -50,13 +50,29 @@ public class JsonHospitalTest extends HospitalTestBase {
     @Test
     public void JSONToObjectForHospitalDb() throws Exception {
         Division root =
-                jsonService.buildDivison(PROGRAM_NAME);
+                jsonService.buildDivisonFromDb(PROGRAM_NAME);
         String temp = jsonService.structureToString(root);
         Division d2 = jsonService.stringToStructure(temp);
         assertEquals(d2.getChildren().get(2).getLabel(), root.getChildren().get(2).getLabel());
         // logger.info("\n"+temp);
     }
 
+     @Test
+    public void CheckProvidersInHospitalDb() throws Exception {
+        Division root =
+                jsonService.buildDivisonFromDb(PROGRAM_NAME);
+        String temp = jsonService.structureToString(root);
+        Division d2 = jsonService.stringToStructure(temp);
+        assertEquals(d2.getChildren().get(2).getLabel(), root.getChildren().get(2).getLabel());
+        // logger.info("\n"+temp);
+        HospitalNode hN = root.getChildren().get(0).
+                getChildren().get(0).getChildren().get(0).
+                getChildren().get(0).getChildren().get(0);
+        
+        assertEquals("P001",hN.getLabel());
+        assertEquals("Provider",hN.getClass().getSimpleName());
+    }
+    
   
     @Test
     public void checkOnProviders() throws Exception {

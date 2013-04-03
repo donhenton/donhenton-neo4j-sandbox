@@ -46,7 +46,7 @@ public interface JSONHospitalService {
      * @param startDivisionLabel
      * @return an assembled division object
      */
-    Division buildDivison(String startDivisionLabel);
+    Division buildDivisonFromDb(String startDivisionLabel);
     
     
     /**
