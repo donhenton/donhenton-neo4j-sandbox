@@ -5,6 +5,8 @@
 package com.dhenton9000.neo4j.starter.neo4j.hospital;
 
 import com.dhenton9000.neo4j.hospital.HospitalDbMaker;
+import java.io.File;
+import java.io.IOException;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -12,6 +14,7 @@ import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.factory.GraphDatabaseFactory;
 import org.neo4j.test.ImpermanentGraphDatabase;
 import org.neo4j.test.TestGraphDatabaseFactory;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -21,14 +24,36 @@ public class HospitalTestBase {
 
     private GraphDatabaseService graphDb;
     protected static GraphDatabaseService staticgraphDb;
+    private static final org.slf4j.Logger logger = LoggerFactory.getLogger(HospitalTestBase.class);
 
     protected static void prepareEmbeddedDatabase(String dbLocation) {
         staticgraphDb = new GraphDatabaseFactory().newEmbeddedDatabase(dbLocation);
         registerShutdownHook();
     }
 
+    public static File createTempDatabaseDir() {
+
+        File d;
+        try {
+            d = File.createTempFile("hospital-test", "dir");
+            logger.debug(String.format("Created a new Neo4j database at [%s]", d.getAbsolutePath()));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        if (!d.delete()) {
+            throw new RuntimeException("temp config directory pre-delete failed");
+        }
+        if (!d.mkdirs()) {
+            throw new RuntimeException("temp config directory not created");
+        }
+        d.deleteOnExit();
+        return d;
+    }
+
     /**
-     * this would be called in the @Before
+     * this would be called in the
+     *
+     * @Before
      */
     protected void prepareTestDatabase() {
 
@@ -36,7 +61,9 @@ public class HospitalTestBase {
     }
 
     /**
-     * this would be called in the @Before, in this case we can set properties
+     * this would be called in the
+     *
+     * @Before, in this case we can set properties
      *
      * Map<String, String> config = new HashMap<String, String>(); config.put(
      * "neostore.nodestore.db.mapped_memory", "10M" ); config.put(
@@ -48,27 +75,26 @@ public class HospitalTestBase {
 
         graphDb = new ImpermanentGraphDatabase(config);
     }
-    
-    protected static void prepareStaticHospitalTestDatabase()
-    {
-         staticgraphDb = new TestGraphDatabaseFactory().newImpermanentDatabaseBuilder().newGraphDatabase();
-         registerShutdownHook();
-         HospitalDbMaker hMaker = new HospitalDbMaker();
-         hMaker.setNeo4jDb(staticgraphDb);
+
+    protected static void prepareStaticHospitalTestDatabase() {
+
+        prepareEmbeddedDatabase(createTempDatabaseDir().getAbsolutePath());
+        registerShutdownHook();
+        HospitalDbMaker hMaker = new HospitalDbMaker();
+        hMaker.setNeo4jDb(staticgraphDb);
         try {
             hMaker.doDBCreate();
         } catch (Exception ex) {
-           throw new RuntimeException("database create problem "+ 
-                   ex.getClass()+" "+ex.getMessage());
+            throw new RuntimeException("database create problem "
+                    + ex.getClass() + " " + ex.getMessage());
         }
-         
+
     }
-    
-    
-    
 
     /**
-     * this would be called in the @After method
+     * this would be called in the
+     *
+     * @After method
      */
     protected void destroyTestDatabase() {
         getGraphDb().shutdown();
@@ -96,7 +122,6 @@ public class HospitalTestBase {
         // shuts down nicely when the VM exits (even if you "Ctrl-C" the
         // running example before it's completed)
         Runtime.getRuntime().addShutdownHook(new Thread() {
-
             @Override
             public void run() {
                 staticgraphDb.shutdown();
