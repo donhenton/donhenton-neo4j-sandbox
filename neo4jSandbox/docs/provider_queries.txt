@@ -18,7 +18,7 @@ start n=node:type_index(TYPE='PROVIDERS') return n;
  start p=node:provider_display_index(provider_display_property="P001"),
  z=node(0) match p<-[*]-d where z-[*1]->d and d.TYPE = 'DIVISIONS' return p,d;
 
-
+start n=node(0) match n-[IS_DIVIDED_INTO*1]->b return b.division_display_property as name, ID(b) as id;
 
 ==================
 
