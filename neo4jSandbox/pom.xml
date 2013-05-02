@@ -132,6 +132,15 @@
 
     
     <dependencies>
+        
+        
+        <dependency>
+            <groupId>org.neo4j</groupId>
+            <artifactId>neo4j-rest-graphdb</artifactId>
+            <version>${neo4j.version}</version>
+        </dependency>
+        
+        
         <dependency>
             <groupId>org.neo4j</groupId>
             <artifactId>neo4j</artifactId>
@@ -220,7 +229,7 @@
         </dependency>
         
         
-          <dependency>
+        <dependency>
             <groupId>com.dhenton9000.utils</groupId>
             <artifactId>XmlUtils</artifactId>
             <version>1.0-SNAPSHOT</version>
