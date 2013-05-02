@@ -19,7 +19,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- *
+ * Demonstration class for the rest API wrapper. The wrapper treats a remote
+ * database as if it were local
  * @author dhenton
  */
 public class RestTester {
