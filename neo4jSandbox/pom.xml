@@ -15,7 +15,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <neo4j.version>1.8.1</neo4j.version>
+        <neo4j.version>2.0.1</neo4j.version>
        
         <!-- Tools properties -->
         <eclipsePluginVersion>2.5</eclipsePluginVersion>
@@ -137,15 +137,25 @@
         <dependency>
             <groupId>org.neo4j</groupId>
             <artifactId>neo4j-rest-graphdb</artifactId>
-            <version>${neo4j.version}</version>
+            <version>2.0.0</version>
+           <exclusions>
+              <exclusion>
+                 <artifactId>neo4j-kernel</artifactId>
+                 <groupId>org.neo4j</groupId>
+              </exclusion>
+           </exclusions>
         </dependency>
-        
-        
-        <dependency>
+       <dependency>
             <groupId>org.neo4j</groupId>
             <artifactId>neo4j</artifactId>
             <version>${neo4j.version}</version>
-            <scope>compile</scope>
+        
+       </dependency>
+        <dependency>
+            <groupId>org.neo4j</groupId>
+            <artifactId>neo4j-kernel</artifactId>
+            <type>test-jar</type>
+            <version>${neo4j.version}</version>
         </dependency>
         
         <dependency>
@@ -153,14 +163,15 @@
             <artifactId>neo4j-utils</artifactId>
             <version>1.2-1.2</version>
             <scope>compile</scope>
+           <exclusions>
+              <exclusion>
+                 <artifactId>neo4j-kernel</artifactId>
+                 <groupId>org.neo4j</groupId>
+              </exclusion>
+           </exclusions>
         </dependency>
         
-        <dependency>
-            <groupId>com.tinkerpop.gremlin</groupId>
-            <artifactId>gremlin-java</artifactId>
-            <version>2.1.0</version>
-        </dependency>
-               
+                
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
@@ -187,7 +198,30 @@
             <scope>compile</scope>
             <type>jar</type>
         </dependency>
-
+        
+         <dependency>
+            <groupId>com.tinkerpop.blueprints</groupId>
+            <artifactId>blueprints-neo4j-graph</artifactId>
+            <version>1.2</version>
+            <exclusions>
+               <exclusion>
+                  <artifactId>neo4j-management</artifactId>
+                  <groupId>org.neo4j</groupId>
+               </exclusion>
+            </exclusions>
+         </dependency>
+        
+  <!--
+  
+        <dependency>
+            <groupId>com.tinkerpop.gremlin</groupId>
+            <artifactId>gremlin-java</artifactId>
+            <version>2.1.0</version>
+        </dependency>
+ 
+    
+     
+-->
         
         <!--  for testing  -->
          
@@ -203,6 +237,7 @@
             <version>4.8.1</version>
             <scope>test</scope>
         </dependency>
+        <!--
         <dependency>
             <groupId>org.neo4j</groupId>
             <artifactId>neo4j-kernel</artifactId>
@@ -210,12 +245,8 @@
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>com.tinkerpop.blueprints</groupId>
-            <artifactId>blueprints-neo4j-graph</artifactId>
-            <version>1.2</version>
-        </dependency>
-        <dependency>
+        -->
+          <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>3.1</version>
@@ -226,22 +257,22 @@
             <artifactId>commons-io</artifactId>
             <version>2.4</version>
             <type>jar</type>
-        </dependency>
-        
-        
-        <dependency>
+        </dependency><dependency>
             <groupId>com.dhenton9000.utils</groupId>
             <artifactId>XmlUtils</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
         
+        
+        
+       
     </dependencies>
 
     <repositories>
         <repository>
             <id>neo4j-release-repository</id>
             <name>Neo4j Maven 2 release repository</name>
-            <url>http://m2.neo4j.org/releases</url>
+            <url>http://m2.neo4j.org/content/repositories/releases/</url>
             <releases>
                 <enabled>true</enabled>
             </releases>

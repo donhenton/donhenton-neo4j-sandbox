@@ -50,13 +50,15 @@ public class IndexTest extends BaseNeo4jTest {
     private void setUpGraph() {
 
 
-        nodeIndex = getGraphDb().index().forNodes("nodes");
+        
         Transaction tx = getGraphDb().beginTx();
+       
         try {
+            nodeIndex = getGraphDb().index().forNodes("nodes");
             // Create users sub reference node
             usersReferenceNode = getGraphDb().createNode();
             usersReferenceNode.setProperty(USERNAME_KEY, ROOTNODE_USERNAME);
-            getGraphDb().getReferenceNode().createRelationshipTo(
+            getGraphDb().getNodeById(0).createRelationshipTo(
                     usersReferenceNode, RelTypes.USERS_REFERENCE);
             // Create some users and index their names with the IndexService
             for (int id = 0; id < 100; id++) {
@@ -69,8 +71,13 @@ public class IndexTest extends BaseNeo4jTest {
 
 
             tx.success();
-        } finally {
+        }
+        catch(Exception err)   {
+            logger.error("error "+err.getClass().getName()+" "+err.getMessage());
+        } 
+         finally {
             tx.finish();
+            getGraphDb().shutdown();
         }
 
 

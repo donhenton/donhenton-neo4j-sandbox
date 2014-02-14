@@ -19,6 +19,7 @@ import org.neo4j.graphdb.traversal.Evaluators;
 import org.neo4j.graphdb.traversal.TraversalDescription;
 import org.neo4j.kernel.Traversal;
 import static org.junit.Assert.*;
+import org.neo4j.graphdb.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,15 +54,17 @@ public class MatrixTests extends BaseNeo4jTest {
     @Test
     public void testNeoNode()
     {
+        Transaction tx = staticgraphDb.beginTx();
        Node t = getNeoNode();
        assertNotNull(t);
        assertNotNull(t.getProperty("Text",null));
        assertEquals(t.getProperty("Text",null),"Thomas Anderson");
+       tx.finish();
     }
     
     
     private Node getNeoNode() {
-        return staticgraphDb.getReferenceNode().getSingleRelationship(RelTypes.NEO_NODE, Direction.OUTGOING).getEndNode();
+        return staticgraphDb.getNodeById(0).getSingleRelationship(RelTypes.NEO_NODE, Direction.OUTGOING).getEndNode();
     }
 
     public String printNeoFriends() {

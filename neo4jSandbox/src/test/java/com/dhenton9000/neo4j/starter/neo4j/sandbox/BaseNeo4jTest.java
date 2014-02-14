@@ -7,8 +7,8 @@ package com.dhenton9000.neo4j.starter.neo4j.sandbox;
 import java.util.Map;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.factory.GraphDatabaseFactory;
-import org.neo4j.test.ImpermanentGraphDatabase;
 import org.neo4j.test.TestGraphDatabaseFactory;
+
 
 /**
  *
@@ -29,7 +29,8 @@ public class BaseNeo4jTest {
      */
     protected void prepareTestDatabase() {
 
-        graphDb = new TestGraphDatabaseFactory().newImpermanentDatabaseBuilder().newGraphDatabase();
+      //  graphDb = new TestGraphDatabaseFactory().newImpermanentDatabaseBuilder("target/imperm").newGraphDatabase();
+        graphDb = new TestGraphDatabaseFactory().newImpermanentDatabase("target/imperm");
     }
 
     /**
@@ -40,11 +41,12 @@ public class BaseNeo4jTest {
      * "string_block_size", "60" ); config.put( "array_block_size", "300" );
      *
      *
+     * @param config
      */
-    protected void prepareTestDatabase(Map<String, String> config) {
-
-        graphDb = new ImpermanentGraphDatabase(config);
-    }
+//    protected void prepareTestDatabase(Map<String, String> config) {
+//
+//        graphDb =  new TestGraphDatabaseFactory().newImpermanentDatabase(config);
+//    }
 
     /**
      * this would be called in the @After method

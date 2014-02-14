@@ -32,7 +32,7 @@ public class MatrixDBCreator extends AbstractEmbeddedDBCreator {
             thomas.setProperty("age", 29);
 
             // connect Neo/Thomas to the reference node
-            Node referenceNode = getGraphDb().getReferenceNode();
+            Node referenceNode = getGraphDb().getNodeById(0);
             referenceNode.createRelationshipTo(thomas, RelTypes.NEO_NODE);
 
             Node trinity = getGraphDb().createNode();

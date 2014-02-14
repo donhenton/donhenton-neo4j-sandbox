@@ -46,13 +46,13 @@ public class SimpleTest extends BaseNeo4jTest {
     @Test
     public void testFileStructure()
     {
-            
-            Node rootNode = getGraphDb().getReferenceNode();
+            Transaction tx = getGraphDb().beginTx();
+            Node rootNode = getGraphDb().getNodeById(0);
             String  path = "dir1/dir12/shortcut";
             Node target = getNodeFromPath( rootNode, path, true );
             assertNotNull(target);
             assertEquals("symlink inode value",target.getProperty( INODE ),SYMLINK_INODE_VALUE  );
-
+            tx.close();
     }
     
     
@@ -86,8 +86,10 @@ public class SimpleTest extends BaseNeo4jTest {
     private void setUpGraph() {
         Transaction tx = getGraphDb().beginTx();
         try {
-            Node rootNode = getGraphDb().getReferenceNode();
-
+            
+            Node rootNode = getGraphDb().createNode();
+            rootNode.setProperty(INODE, 0);
+            rootNode.setProperty(NAME, "ROOT");
             // create a path like this:
             // /dir1/dir12/dir123/dir1231
 

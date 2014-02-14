@@ -6,6 +6,7 @@ import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.RelationshipType;
 import org.neo4j.graphdb.Transaction;
+import org.neo4j.graphdb.factory.GraphDatabaseFactory;
 import org.neo4j.kernel.EmbeddedGraphDatabase;
 
 public class TreeTraverse
@@ -19,14 +20,21 @@ public class TreeTraverse
         CHILD,
         SYMLINK
     }
-
+//http://comments.gmane.org/gmane.comp.db.neo4j.user/11841
+//https://github.com/neo4j-examples
     public static void main( final String[] args )
     {
-        graphDb = new EmbeddedGraphDatabase( "target/neo4j-db" );
+       // graphDb = new EmbeddedGraphDatabase( "target/neo4j-db" );
+  
+         
+        graphDb = new GraphDatabaseFactory()
+        .newEmbeddedDatabaseBuilder( "target/neo4j-db" )
+        .loadPropertiesFromFile("neo4j.properties" )
+        .newGraphDatabase();
         Transaction tx = graphDb.beginTx();
         try
         {
-            Node rootNode = graphDb.getReferenceNode();
+            Node rootNode = graphDb.getNodeById(0);
 
             // create a path like this:
             // /dir1/dir12/dir123/dir1231
@@ -50,7 +58,7 @@ public class TreeTraverse
         tx = graphDb.beginTx();
         try
         {
-            Node rootNode = graphDb.getReferenceNode();
+            Node rootNode = graphDb.getNodeById(0);
 
             // traverse down from a path
             String path = "dir1/dir12/dir123/dir1231";

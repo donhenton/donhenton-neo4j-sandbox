@@ -13,6 +13,7 @@ import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.RelationshipType;
+import org.neo4j.graphdb.factory.GraphDatabaseFactory;
 import org.neo4j.graphdb.index.IndexHits;
 import org.neo4j.kernel.EmbeddedGraphDatabase;
 import org.neo4j.tooling.GlobalGraphOperations;
@@ -32,7 +33,7 @@ public class DatabaseHelper
     }
 
 
-    public   EmbeddedGraphDatabase createDatabase( String dbDir, boolean cleanOut ) throws IOException
+    public   GraphDatabaseService createDatabase( String dbDir, boolean cleanOut ) throws IOException
     {
         
        File dbDirFile = new File(dbDir); 
@@ -42,9 +43,12 @@ public class DatabaseHelper
            
            FileUtils.cleanDirectory(dbDirFile);
        }    
+        GraphDatabaseService graphDb = new GraphDatabaseFactory()
+                .newEmbeddedDatabaseBuilder( dbDir )
+                .loadPropertiesFromFile("neo4j.properties" )
+                .newGraphDatabase();    
            
-           
-       return new EmbeddedGraphDatabase( dbDir );
+       return graphDb;
     }
 
     public   File createTempDatabaseDir(String prefix, String suffix)
