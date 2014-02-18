@@ -1,37 +1,50 @@
 /*
- * To change this template, choose Tools | Templates
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 package com.dhenton9000.neo4j.starter.neo4j.sandbox;
 
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
-import org.neo4j.graphdb.*;
-import org.neo4j.graphdb.index.Index;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.neo4j.graphdb.GraphDatabaseService;
+import org.neo4j.graphdb.factory.GraphDatabaseFactory;
 import static org.junit.Assert.*;
-import org.junit.Ignore;
+import org.junit.BeforeClass;
+import org.neo4j.graphdb.DynamicLabel;
+import org.neo4j.graphdb.Node;
+import org.neo4j.graphdb.Relationship;
+import org.neo4j.graphdb.RelationshipType;
+import org.neo4j.graphdb.ResourceIterator;
+import org.neo4j.graphdb.Transaction;
 import org.neo4j.graphdb.schema.IndexDefinition;
 import org.neo4j.graphdb.schema.Schema;
+import org.neo4j.test.TestGraphDatabaseFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
- * the graph structure is :
- *
- * Root | usersReferenceNode | | | | | | user1 user2 user4 user5 user6 .....
- *
  * @author dhenton
  */
-public class IndexTest extends BaseNeo4jTest {
+public class StarterTest {
 
+    private static GraphDatabaseService graphDb = null;
     private static final String ROOTNODE_USERNAME = "<init>";
 
     //  private Index<Node> nodeIndex;
     private static final String USERNAME_KEY = "username";
-    private final Logger logger = LoggerFactory.getLogger(IndexTest.class);
-    private Node usersReferenceNode;
+    private static final Logger logger = LoggerFactory.getLogger(IndexTest.class);
+    private static Node usersReferenceNode = null;
+
+    /**
+     * @return the graphDb
+     */
+    public static GraphDatabaseService getGraphDb() {
+        return graphDb;
+    }
 
     private static enum RelTypes implements RelationshipType {
 
@@ -39,21 +52,10 @@ public class IndexTest extends BaseNeo4jTest {
         USER
     }
 
-    @Before
-    public void before() {
-        this.prepareTestDatabase();
-        setUpGraph();
-
-    }
-
-    @After
-    public void after() {
-        this.destroyTestDatabase();
-    }
-
-    private void setUpGraph() {
-
-
+    @BeforeClass
+    public static void beforeClass() {
+        
+        graphDb = new TestGraphDatabaseFactory().newImpermanentDatabase();
         IndexDefinition indexDefinition = null;
         try (Transaction tx = getGraphDb().beginTx()) {
             Schema schema = getGraphDb().schema();
@@ -77,7 +79,8 @@ public class IndexTest extends BaseNeo4jTest {
                     usersReferenceNode, RelTypes.USERS_REFERENCE);
             // Create some users and index their names with the IndexService
             for (int id = 0; id < 100; id++) {
-                Node userNode = createAndIndexUser(idToUserName(id));
+                Node userNode   = getGraphDb().createNode();
+                userNode.setProperty(USERNAME_KEY, idToUserName(id));
                 usersReferenceNode.createRelationshipTo(userNode,
                         RelTypes.USER);
             }
@@ -89,10 +92,15 @@ public class IndexTest extends BaseNeo4jTest {
             logger.error("error " + err.getClass().getName() + " " + err.getMessage());
 
         }
+    }
+  
 
+    @AfterClass
+    public static void afterClass() {
+        getGraphDb().shutdown();
     }
 
-    @Ignore
+    @Test
     public void findUser() {
 
         int idToFind = 45;
@@ -105,7 +113,7 @@ public class IndexTest extends BaseNeo4jTest {
 
     }
 
-    @Ignore
+    @Test
     public void testRelationShips() {
         int idToFind = 45;
         Node foundUser = findAUser(idToFind);
@@ -125,24 +133,24 @@ public class IndexTest extends BaseNeo4jTest {
 
     }
 
-    private String idToUserName(final int id) {
-        return "user" + id + "@neo4j.org";
+    
+    
+    
+    
+    @Test
+    public void getAJob() {
+        assertTrue(true);
     }
 
-    /**
-     * add to the nodeIndex store. the index store will index the item node in
-     * the index USERNAME_KEY, with a value of username the nodeIndex is a
-     * collecton of indices for key/value pairs each key is a <b>separate
-     * index</b> the nodeIndex is a collection of indices
-     *
-     * @param username
-     * @return
-     */
     private Node createAndIndexUser(final String username) {
         Node node = getGraphDb().createNode();
         node.setProperty(USERNAME_KEY, username);
         //nodeIndex.add(node, USERNAME_KEY, username);
         return node;
+    }
+
+    private static String idToUserName(final int id) {
+        return "user" + id + "@neo4j.org";
     }
 
     private Node findAUser(int idToFind) {
@@ -160,5 +168,4 @@ public class IndexTest extends BaseNeo4jTest {
         }
         return foundUser;
     }
-
 }

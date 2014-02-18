@@ -20,8 +20,8 @@
         <!-- Tools properties -->
         <eclipsePluginVersion>2.5</eclipsePluginVersion>
         <vmtype>org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType</vmtype>
-        <jdkName>JavaSE-1.6</jdkName>
-        <jdk.version>1.6</jdk.version>
+        <jdkName>JavaSE-1.7</jdkName>
+        <jdk.version>1.7</jdk.version>
     </properties>
 
     <build>

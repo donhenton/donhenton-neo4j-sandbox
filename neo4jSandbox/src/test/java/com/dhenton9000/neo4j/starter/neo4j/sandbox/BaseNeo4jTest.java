@@ -16,7 +16,7 @@ import org.neo4j.test.TestGraphDatabaseFactory;
  */
 public class BaseNeo4jTest {
 
-    private GraphDatabaseService graphDb;
+    GraphDatabaseService graphDb;
     protected static GraphDatabaseService staticgraphDb;
 
     protected static void prepareEmbeddedDatabase(String dbLocation) {
@@ -30,7 +30,9 @@ public class BaseNeo4jTest {
     protected void prepareTestDatabase() {
 
       //  graphDb = new TestGraphDatabaseFactory().newImpermanentDatabaseBuilder("target/imperm").newGraphDatabase();
-        graphDb = new TestGraphDatabaseFactory().newImpermanentDatabase("target/imperm");
+        graphDb =
+                //= new TestGraphDatabaseFactory().newImpermanentDatabase("target/imperm");
+        new GraphDatabaseFactory().newEmbeddedDatabase( "target/imperm" );
     }
 
     /**
@@ -83,5 +85,9 @@ public class BaseNeo4jTest {
                 staticgraphDb.shutdown();
             }
         });
+    }
+
+    private Object GraphDatabaseFactory() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
